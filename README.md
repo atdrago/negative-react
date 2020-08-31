@@ -9,3 +9,11 @@
 3. `nvm use` (Assuming you have installed Node using NVM)
 4. `npm install`
 5. `npm start`
+
+## Security
+
+On your first screenshot, you'll be asked to update your security settings. The location the app was launched from will appear in settings for you to click and allow.
+
+![User clicking the checkbox next to "Terminal" in System Preferences, Security & Privacy, Screen Recording tab](docs/images/security.png)
+
+If you ran `npm start` in "Terminal", for example, you would see the above
