@@ -93,8 +93,9 @@ function createViewBrowserWindow(imageUri, captureBounds, displayBounds) {
   const browserWindow = new BrowserWindow({
     ...defaultWindowOptions,
     ...{
-      titleBarStyle: 'hidden',
       ...captureBounds,
+      alwaysOnTop: true,
+      titleBarStyle: 'hidden',
       x: displayBounds.x + captureBounds.x,
       y: displayBounds.y + captureBounds.y,
     },
