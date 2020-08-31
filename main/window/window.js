@@ -9,6 +9,10 @@ const WINDOW_TYPE = {
 };
 
 const defaultWindowOptions = {
+  acceptFirstMouse: true,
+  alwaysOnTop: true,
+  enableLargerThanScreen: true,
+  frame: false,
   hasShadow: false,
   transparent: true,
   webPreferences: {
@@ -35,11 +39,11 @@ function createCaptureBrowserWindows() {
     const browserWindow = new BrowserWindow({
       ...defaultWindowOptions,
       ...{
-        alwaysOnTop: true,
-        enableLargerThanScreen: true,
-        frame: false,
+        closable: false,
         fullscreenable: false,
         height,
+        maximizable: false,
+        minimizable: false,
         movable: false,
         resizable: false,
         width,
@@ -94,7 +98,6 @@ function createViewBrowserWindow(imageUri, captureBounds, displayBounds) {
     ...defaultWindowOptions,
     ...{
       ...captureBounds,
-      alwaysOnTop: true,
       titleBarStyle: 'hidden',
       x: displayBounds.x + captureBounds.x,
       y: displayBounds.y + captureBounds.y,
