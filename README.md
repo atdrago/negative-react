@@ -10,10 +10,19 @@
 4. `npm install`
 5. `npm start`
 
-## Security
+## Usage
+
+### Security
 
 On your first screenshot, you'll be asked to update your security settings. The location the app was launched from will appear in settings for you to click and allow.
 
 ![User clicking the checkbox next to "Terminal" in System Preferences, Security & Privacy, Screen Recording tab](docs/images/security.png)
 
 If you ran `npm start` in "Terminal", for example, you would see the above
+
+### Global Shortcut
+
+The global shortcut to refocus Negative is `CommandOrControl+Alt+G`, which means different things for each OS:
+
+- macOS: **`Command+Option+G`**
+- Windows and Linux: **`Control+Alt+G`**

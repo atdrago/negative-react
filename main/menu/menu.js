@@ -34,7 +34,7 @@ const template = [
       // MENU_SEPARATOR,
       {
         label: 'Quit Negative',
-        accelerator: 'Command+Q',
+        accelerator: 'CommandOrControl+Q',
         click: () => app.quit(),
       },
     ],
@@ -44,7 +44,7 @@ const template = [
     submenu: [
       {
         label: 'New Window',
-        accelerator: 'Command+N',
+        accelerator: 'CommandOrControl+N',
         click: () => {
           startCaptureMode();
         },
@@ -55,7 +55,7 @@ const template = [
       MENU_SEPARATOR,
       {
         label: 'Capture',
-        accelerator: 'Command+G',
+        accelerator: 'CommandOrControl+Alt+G',
         click: () => {
           isInCaptureMode() ? startViewMode() : startCaptureMode();
         },
@@ -67,13 +67,13 @@ const template = [
     submenu: [
       {
         label: 'Reload',
-        accelerator: 'Command+R',
+        accelerator: 'CommandOrControl+R',
         click: () => BrowserWindow.getFocusedWindow().reload(),
         // enabled: canReload,
       },
       {
         label: 'Toggle DevTools',
-        accelerator: 'Alt+Command+I',
+        accelerator: 'Alt+CommandOrControl+I',
         click: () => BrowserWindow.getFocusedWindow().toggleDevTools(),
         // enabled: canToggleDevTools,
       },

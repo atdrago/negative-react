@@ -1,12 +1,19 @@
-const { app, Menu, ipcMain } = require('electron');
+const { app, ipcMain, globalShortcut, Menu } = require('electron');
 
 const { menu } = require('../menu');
-const { startCaptureMode, startViewMode } = require('../window');
+const {
+  startCaptureMode,
+  startViewMode,
+  isInCaptureMode,
+} = require('../window');
 
-const init = () => {
-  // app.on('ready', () => startCaptureMode());
-
-  app.whenReady().then(() => startCaptureMode());
+function init() {
+  app.whenReady().then(() => {
+    globalShortcut.register('CommandOrControl+Alt+G', () => {
+      isInCaptureMode() ? startViewMode() : startCaptureMode();
+    });
+    startCaptureMode();
+  });
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -38,6 +45,6 @@ const init = () => {
   });
 
   Menu.setApplicationMenu(menu);
-};
+}
 
 module.exports = { init };
