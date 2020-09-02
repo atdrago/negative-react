@@ -17,7 +17,7 @@ const defaultWindowOptions = {
   transparent: true,
   webPreferences: {
     enableRemoteModule: true,
-    preload: path.join(__dirname, 'preload.js'),
+    preload: path.join(__dirname, 'window-preload.js'),
   },
 };
 
@@ -160,33 +160,31 @@ function destroyViewWindow(targetWindow) {
   );
 }
 
-/**
- * Exports
- */
-
-let cachedIsInCaptureMode = false;
-
-function isInCaptureMode() {
-  return cachedIsInCaptureMode;
-}
-
-function startCaptureMode() {
-  cachedIsInCaptureMode = true;
-  hideViewBrowserWindows();
-  showOrCreateCaptureBrowserWindows();
-}
-
-function startViewMode(imageUri, captureBounds, displayBounds) {
-  cachedIsInCaptureMode = false;
-  hideCaptureBrowserWindows();
-  showViewBrowserWindows();
-  if (imageUri && captureBounds && displayBounds) {
-    createViewBrowserWindow(imageUri, captureBounds, displayBounds);
-  }
-}
-
 module.exports = {
-  isInCaptureMode,
-  startCaptureMode,
-  startViewMode,
+  init(_menu) {
+    this._menu = _menu;
+    this.cachedIsInCaptureMode = false;
+
+    return this;
+  },
+  isInCaptureMode() {
+    return this.cachedIsInCaptureMode;
+  },
+  startCaptureMode() {
+    this.cachedIsInCaptureMode = true;
+
+    hideViewBrowserWindows();
+    showOrCreateCaptureBrowserWindows();
+    this._menu.createMenu();
+  },
+  startViewMode(imageUri, captureBounds, displayBounds) {
+    this.cachedIsInCaptureMode = false;
+
+    hideCaptureBrowserWindows();
+    showViewBrowserWindows();
+    if (imageUri && captureBounds && displayBounds) {
+      createViewBrowserWindow(imageUri, captureBounds, displayBounds);
+    }
+    this._menu.createMenu();
+  },
 };
