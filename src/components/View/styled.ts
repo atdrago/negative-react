@@ -36,6 +36,6 @@ export const Top = styled.div`
 
 export const Image = styled.img`
   filter: invert(100%);
-  opacity: 0.5;
   pointer-events: none;
+  transition: opacity 300ms ease;
 `;

@@ -17,7 +17,16 @@ export const Frame = styled.div`
 
 export const CaptureRegion = styled.div`
   position: absolute;
-  border: 9999px solid rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0 0 0 1px white;
+  border: 9999px solid rgba(0, 0, 0, 0.5);
   margin: -9999px 0 0 -9999px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    right: -2px;
+    top: -2px;
+    bottom: -2px;
+    border: 2px dashed white;
+  }
 `;

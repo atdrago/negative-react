@@ -14,8 +14,11 @@ export const View = () => {
   const [imageHeight, setImageHeight] = useState(0);
   const [imageUri, setImageUri] = useState('');
   const [imageWidth, setImageWidth] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
+
     window.ipcRenderer.invoke('view-mount');
 
     window.ipcRenderer.on(
@@ -33,15 +36,24 @@ export const View = () => {
     );
   }, []);
 
+  const handleLoad = () => {
+    setIsLoading(false);
+  };
+
   return (
     <Frame>
       <Top />
       <Middle style={{ height: imageHeight }}>
         <MiddleLeft />
         <Image
+          onLoad={handleLoad}
           alt=""
           src={imageUri}
-          style={{ height: imageHeight, width: imageWidth }}
+          style={{
+            height: imageHeight,
+            width: imageWidth,
+            opacity: isLoading ? 0 : 0.5,
+          }}
         />
         <MiddleRight />
       </Middle>
