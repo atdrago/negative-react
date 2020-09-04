@@ -20,6 +20,18 @@ If you ran `npm start` in "Terminal", for example, you would see the above
 
 ## Usage
 
+### Quick Start
+
+Follow [Setup](#setup) and [Security](#security) above.
+
+Negative starts in **Capture mode**. Press `Escape` to exit, or click and drag to capture a region of the screen.
+
+![Screenshot of Capture mode](docs/images/capture.png)
+
+After the capture completes, Negative enters **View mode**.
+
+![Screenshot of View mode](docs/images/view.png)
+
 ### Global Shortcuts
 
 If Negative is open, there are two shortcuts that can be used globally:
