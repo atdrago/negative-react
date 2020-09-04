@@ -1,4 +1,10 @@
-const { app, ipcMain, globalShortcut } = require('electron');
+const {
+  app,
+  BrowserWindow,
+  globalShortcut,
+  ipcMain,
+  // screen,
+} = require('electron');
 
 module.exports = {
   init() {
@@ -20,11 +26,34 @@ module.exports = {
         },
       );
 
-      globalShortcut.register('CommandOrControl+Alt+G', () => {
-        this._window.isInCaptureMode()
+      globalShortcut.register('Shift+Alt+CommandOrControl+G', () => {
+        this._window.isInCaptureMode() && BrowserWindow.getFocusedWindow()
           ? this._window.startViewMode()
           : this._window.startCaptureMode();
       });
+
+      globalShortcut.register('Shift+Alt+CommandOrControl+H', () => {
+        if (BrowserWindow.getFocusedWindow()) {
+          this._window.hideAllWindows();
+        } else {
+          this._window.isInCaptureMode()
+            ? this._window.startCaptureMode()
+            : this._window.startViewMode();
+        }
+      });
+
+      // TODO: The following works, but when a display changes it causes all
+      // capture windows to be created and shown, even if the capture view was
+      // not visible previously. We should be able to create them hidden by default
+      // screen.on('display-added', () => {
+      //   this._window.rebuildCaptureWindows();
+      // });
+      // screen.on('display-removed', () => {
+      //   this._window.rebuildCaptureWindows();
+      // });
+      // screen.on('display-metrics-changed', () => {
+      //   this._window.rebuildCaptureWindows();
+      // });
     });
 
     app.on('window-all-closed', () => {

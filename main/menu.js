@@ -34,12 +34,18 @@ module.exports = {
           // { label: 'Reset...', click: () => negative.reset() },
           // MENU_SEPARATOR,
           // { label: 'Lock Negative', accelerator: 'Command+Control+L', click: () => negative.toggleLocking(), type: 'checkbox', checked: isAppLocked },
-          // { label: 'Hide Negative', accelerator: 'Command+Control+H', click: () => negative.toggleHiding(), type: 'checkbox', checked: isAppHidden },
-          // MENU_SEPARATOR,
           {
-            label: 'Quit Negative',
+            accelerator: 'Shift+Alt+CommandOrControl+H',
+            click: () => this._window.hideAllWindows(),
+            enabled: true,
+            label: 'Hide Negative (global)',
+            registerAccelerator: false,
+          },
+          MENU_SEPARATOR,
+          {
             accelerator: 'CommandOrControl+Q',
             click: () => app.quit(),
+            label: 'Quit Negative',
           },
         ],
       },
@@ -47,24 +53,23 @@ module.exports = {
         label: 'File',
         submenu: [
           {
-            label: 'New Window',
             accelerator: 'CommandOrControl+N',
-            click: () => {
-              this._window.startCaptureMode();
-            },
+            click: () => this._window.startCaptureMode(),
+            label: 'New Window',
           },
           {
             role: 'close',
           },
           MENU_SEPARATOR,
           {
-            label: 'Capture',
-            accelerator: 'CommandOrControl+Alt+G',
+            accelerator: 'Shift+Alt+CommandOrControl+G',
             click: () => {
               this._window.isInCaptureMode()
                 ? this._window.startViewMode()
                 : this._window.startCaptureMode();
             },
+            label: 'Capture mode (global)',
+            registerAccelerator: false,
           },
         ],
       },
@@ -72,15 +77,15 @@ module.exports = {
         label: 'View',
         submenu: [
           {
-            label: 'Reload',
             accelerator: 'CommandOrControl+R',
             click: () => BrowserWindow.getFocusedWindow().reload(),
+            label: 'Reload',
             // enabled: canReload,
           },
           {
-            label: 'Toggle DevTools',
             accelerator: 'Alt+CommandOrControl+I',
             click: () => BrowserWindow.getFocusedWindow().toggleDevTools(),
+            label: 'Toggle DevTools',
             // enabled: canToggleDevTools,
           },
         ],
@@ -88,38 +93,38 @@ module.exports = {
       {
         label: 'Window',
         submenu: [
-          { label: 'Minimize', accelerator: 'Command+M', role: 'minimize' },
+          { accelerator: 'Command+M', label: 'Minimize', role: 'minimize' },
           MENU_SEPARATOR,
           {
             label: 'Move',
             submenu: [
               {
-                label: 'Right by 1px',
-                enabled: !this._window.isInCaptureMode(),
                 accelerator: 'Right',
                 click: () =>
                   !this._window.isInCaptureMode() && moveViewWindow([1, 0]),
+                enabled: !this._window.isInCaptureMode(),
+                label: 'Right by 1px',
               },
               {
-                label: 'Left by 1px',
-                enabled: !this._window.isInCaptureMode(),
                 accelerator: 'Left',
                 click: () =>
                   !this._window.isInCaptureMode() && moveViewWindow([-1, 0]),
+                enabled: !this._window.isInCaptureMode(),
+                label: 'Left by 1px',
               },
               {
-                label: 'Up by 1px',
-                enabled: !this._window.isInCaptureMode(),
                 accelerator: 'Up',
                 click: () =>
                   !this._window.isInCaptureMode() && moveViewWindow([0, -1]),
+                enabled: !this._window.isInCaptureMode(),
+                label: 'Up by 1px',
               },
               {
-                label: 'Down by 1px',
-                enabled: !this._window.isInCaptureMode(),
                 accelerator: 'Down',
                 click: () =>
                   !this._window.isInCaptureMode() && moveViewWindow([0, 1]),
+                enabled: !this._window.isInCaptureMode(),
+                label: 'Down by 1px',
               },
               MENU_SEPARATOR,
               {
@@ -130,11 +135,11 @@ module.exports = {
                   !this._window.isInCaptureMode() && moveViewWindow([10, 0]),
               },
               {
-                label: 'Left by 10px',
-                enabled: !this._window.isInCaptureMode(),
                 accelerator: 'Shift+Left',
                 click: () =>
                   !this._window.isInCaptureMode() && moveViewWindow([-10, 0]),
+                enabled: !this._window.isInCaptureMode(),
+                label: 'Left by 10px',
               },
               {
                 accelerator: 'Shift+Up',
@@ -144,11 +149,11 @@ module.exports = {
                 label: 'Up by 10px',
               },
               {
-                label: 'Down by 10px',
-                enabled: !this._window.isInCaptureMode(),
                 accelerator: 'Shift+Down',
                 click: () =>
                   !this._window.isInCaptureMode() && moveViewWindow([0, 10]),
+                enabled: !this._window.isInCaptureMode(),
+                label: 'Down by 10px',
               },
             ],
           },

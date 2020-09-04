@@ -10,19 +10,38 @@
 4. `npm install`
 5. `npm start`
 
-## Usage
+## Security
 
-### Security
-
-On your first screenshot, you'll be asked to update your security settings. The location the app was launched from will appear in settings for you to click and allow.
+When you take your first screenshot, you'll be asked to update your security settings. The location the app was launched from will appear in settings for you to click and allow.
 
 ![User clicking the checkbox next to "Terminal" in System Preferences, Security & Privacy, Screen Recording tab](docs/images/security.png)
 
 If you ran `npm start` in "Terminal", for example, you would see the above
 
-### Global Shortcut
+## Usage
 
-The global shortcut to refocus Negative is `CommandOrControl+Alt+G`, which means different things for each OS:
+### Global Shortcuts
 
-- macOS: **`Command+Option+G`**
-- Windows and Linux: **`Control+Alt+G`**
+If Negative is open, there are two shortcuts that can be used globally:
+
+#### Capture
+
+- macOS: **`Shift` + `Option` + `Command` + `G`**
+- Windows and Linux: **`Shift` + `Alt` + `Control` + `G`**
+
+#### Hide and Show
+
+- macOS: **`Shift` + `Option` + `Command` + `H`**
+- Windows and Linux: **`Shift` + `Alt` + `Control` + `H`**
+
+### App Shortcuts
+
+#### Moving the "View" window by 1px
+
+- macOS: **`Command` + `←` , `↑` , `→` , `↓`**
+- Windows and Linux: **`Control` + `←` , `↑` , `→` , `↓`**
+
+#### Moving the "View" window by 10px
+
+- macOS: **`Shift` + `Command` + `←` , `↑` , `→` , `↓`**
+- Windows and Linux: **`Shift` + `Control` + `←` , `↑` , `→` , `↓`**
