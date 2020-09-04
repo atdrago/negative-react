@@ -78,7 +78,7 @@ module.exports = {
       ...defaultWindowOptions,
       ...{
         ...captureBounds,
-        titleBarStyle: 'hidden',
+        titleBarStyle: 'hiddenInset',
         x: displayBounds.x + captureBounds.x,
         y: displayBounds.y + captureBounds.y,
       },
@@ -86,6 +86,14 @@ module.exports = {
 
     browserWindow.on('closed', (evt) => {
       this._destroyViewBrowserWindow(evt.sender);
+    });
+
+    browserWindow.on('focus', () => {
+      browserWindow.setWindowButtonVisibility(true);
+    });
+
+    browserWindow.on('blur', () => {
+      browserWindow.setWindowButtonVisibility(false);
     });
 
     browserWindow.loadURL(
