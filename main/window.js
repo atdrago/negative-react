@@ -14,6 +14,7 @@ const defaultWindowOptions = {
   enableLargerThanScreen: true,
   frame: false,
   hasShadow: false,
+  title: 'Negative',
   transparent: true,
   webPreferences: {
     enableRemoteModule: true,
