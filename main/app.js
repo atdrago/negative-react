@@ -26,6 +26,10 @@ module.exports = {
         },
       );
 
+      ipcMain.handle('capture-keyup-escape', () => {
+        this._window.hideAllWindows();
+      });
+
       globalShortcut.register('Shift+Alt+CommandOrControl+G', () => {
         this._window.isInCaptureMode() && BrowserWindow.getFocusedWindow()
           ? this._window.startViewMode()
