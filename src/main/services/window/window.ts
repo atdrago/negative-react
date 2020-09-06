@@ -1,4 +1,5 @@
 import path from 'path';
+import url from 'url';
 
 import { BrowserWindow, screen } from 'electron';
 
@@ -20,6 +21,18 @@ export const defaultWindowOptions = {
     preload: path.join(__dirname, 'window-preload.js'),
   },
 };
+
+export const WINDOW_BASE_URL =
+  MAIN_WINDOW_WEBPACK_ENTRY ||
+  process.env.ELECTRON_START_URL ||
+  url.format({
+    pathname: path.join(
+      __dirname,
+      '/../../.webpack/renderer/main_window/index.html',
+    ),
+    protocol: 'file:',
+    slashes: true,
+  });
 
 const windowStore: { [TKey in WINDOW_TYPE]: BrowserWindow[] } = {
   [WINDOW_TYPE.CAPTURE]: [],

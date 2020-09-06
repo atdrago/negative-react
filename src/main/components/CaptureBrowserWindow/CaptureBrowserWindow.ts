@@ -1,11 +1,9 @@
-import path from 'path';
-import url from 'url';
-
 import { BrowserWindow } from 'electron';
 
 import {
-  destroyCaptureBrowserWindow,
   defaultWindowOptions,
+  destroyCaptureBrowserWindow,
+  WINDOW_BASE_URL,
 } from 'main/services/window';
 import {
   IBrowserWindowEvent,
@@ -39,27 +37,11 @@ export function CaptureBrowserWindow({
 
   browserWindow.setAlwaysOnTop(true, 'screen-saver');
 
-  /**
-   * Electron has this typed incorrectly
-   */
   browserWindow.on('closed', ({ sender }: IBrowserWindowEvent) => {
     destroyCaptureBrowserWindow(sender);
   });
 
-  const windowUrl = MAIN_WINDOW_WEBPACK_ENTRY
-    ? `${MAIN_WINDOW_WEBPACK_ENTRY}?type=${WINDOW_TYPE.CAPTURE}`
-    : process.env.ELECTRON_START_URL
-    ? `${process.env.ELECTRON_START_URL}?type=${WINDOW_TYPE.CAPTURE}`
-    : url.format({
-        pathname: path.join(
-          __dirname,
-          `/../../.webpack/renderer/main_window/index.html?type=${WINDOW_TYPE.CAPTURE}`,
-        ),
-        protocol: 'file:',
-        slashes: true,
-      });
-
-  browserWindow.loadURL(windowUrl);
+  browserWindow.loadURL(`${WINDOW_BASE_URL}?type=${WINDOW_TYPE.CAPTURE}`);
 
   return browserWindow;
 }

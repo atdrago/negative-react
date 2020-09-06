@@ -6,6 +6,7 @@ import { BrowserWindow, ipcMain } from 'electron';
 import {
   destroyViewBrowserWindow,
   defaultWindowOptions,
+  WINDOW_BASE_URL,
 } from 'main/services/window';
 import {
   IBrowserWindowEvent,
@@ -40,20 +41,7 @@ export function ViewBrowserWindow({
     browserWindow.setWindowButtonVisibility(false);
   });
 
-  const windowUrl = MAIN_WINDOW_WEBPACK_ENTRY
-    ? `${MAIN_WINDOW_WEBPACK_ENTRY}?type=${WINDOW_TYPE.VIEW}`
-    : process.env.ELECTRON_START_URL
-    ? `${process.env.ELECTRON_START_URL}?type=${WINDOW_TYPE.VIEW}`
-    : url.format({
-        pathname: path.join(
-          __dirname,
-          `/../../.webpack/renderer/main_window/index.html?type=${WINDOW_TYPE.VIEW}`,
-        ),
-        protocol: 'file:',
-        slashes: true,
-      });
-
-  browserWindow.loadURL(windowUrl);
+  browserWindow.loadURL(`${WINDOW_BASE_URL}?type=${WINDOW_TYPE.VIEW}`);
 
   ipcMain.handleOnce('view-mount', () => {
     ipcMain.removeHandler('view-mount');
