@@ -45,9 +45,11 @@ export const init = () => {
       }
     });
 
-    // TODO: The following works, but when a display changes it causes all
-    // capture windows to be created and shown, even if the capture view was
-    // not visible previously. We should be able to create them hidden by default
+    // TODO: The following works, however there is a bug that still needs to be
+    // fixed. If the app is hidden and then something in the array of displays
+    // changes, the app would enter _back into_ Capture mode, and the user would
+    // need to hide it again. It should detect if the app is hidden. If it is,
+    // rebuild the CaptureBrowserWindows in the background quietly.
     // screen.on('display-added', () => {
     //   this._window.rebuildCaptureWindows();
     // });
