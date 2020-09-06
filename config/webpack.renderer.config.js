@@ -17,6 +17,7 @@ module.exports = {
   plugins,
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
+    // Allow imports related to `baseUrl` in tsconfig.json
     plugins: [new TsconfigPathsPlugin()],
   },
 };

@@ -3,16 +3,15 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
+const paths = require('./paths');
+
 module.exports = [
   new ForkTsCheckerWebpackPlugin(),
   new CopyPlugin({
     patterns: [
       {
-        from: path.resolve(
-          __dirname,
-          '../src/main/services/window/window-preload.js',
-        ),
-        to: path.resolve(__dirname, '../.webpack/main/'),
+        from: paths.windowPreloadScript,
+        to: paths.webpackMainDir,
       },
     ],
   }),

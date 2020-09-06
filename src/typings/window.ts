@@ -1,6 +1,6 @@
 import { DesktopCapturer, IpcRenderer, Remote } from 'electron';
 
-import { CaptureCompleteEvent, CaptureEvent } from './event';
+import { CaptureCompleteEvent, CaptureEvent } from 'typings';
 
 declare global {
   interface Window {
