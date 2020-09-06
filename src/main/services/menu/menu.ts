@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from 'electron';
 
 import {
   destroyAllWindows,
@@ -8,11 +8,7 @@ import {
   isInCaptureMode,
 } from 'main/services/window';
 
-const MENU_SEPARATOR = { type: 'separator' };
-
-let menu: Electron.Menu;
-
-function moveViewWindow([deltaX, deltaY]: [number, number]) {
+function moveViewWindow(deltaX: number, deltaY: number): void {
   const focusedWindow = BrowserWindow.getFocusedWindow();
 
   if (focusedWindow) {
@@ -22,13 +18,13 @@ function moveViewWindow([deltaX, deltaY]: [number, number]) {
   }
 }
 
-export const createMenu = () => {
-  const template = [
+export const createMenu = (): void => {
+  const template: MenuItemConstructorOptions[] = [
     {
       label: 'Negative',
       submenu: [
         { label: 'About Negative', role: 'about' },
-        MENU_SEPARATOR,
+        { type: 'separator' },
         // { label: 'Preferences...', accelerator: 'Command+,', click: () => negative.initSettingsWindow() },
         // MENU_SEPARATOR,
         // { label: 'Reset...', click: () => negative.reset() },
@@ -36,15 +32,15 @@ export const createMenu = () => {
         // { label: 'Lock Negative', accelerator: 'Command+Control+L', click: () => negative.toggleLocking(), type: 'checkbox', checked: isAppLocked },
         {
           accelerator: 'Shift+Alt+CommandOrControl+H',
-          click: () => hideAllWindows(),
+          click: (): void => hideAllWindows(),
           enabled: true,
           label: 'Hide Negative (global)',
           registerAccelerator: false,
         },
-        MENU_SEPARATOR,
+        { type: 'separator' },
         {
           accelerator: 'CommandOrControl+Q',
-          click: () => {
+          click: (): void => {
             destroyAllWindows();
             app.quit();
           },
@@ -57,16 +53,16 @@ export const createMenu = () => {
       submenu: [
         {
           accelerator: 'CommandOrControl+N',
-          click: () => startCaptureMode(),
+          click: (): void => startCaptureMode(),
           label: 'New Window',
         },
         {
           role: 'close',
         },
-        MENU_SEPARATOR,
+        { type: 'separator' },
         {
           accelerator: 'Shift+Alt+CommandOrControl+G',
-          click: () => {
+          click: (): void => {
             isInCaptureMode() ? startViewMode() : startCaptureMode();
           },
           label: 'Capture mode (global)',
@@ -79,13 +75,14 @@ export const createMenu = () => {
       submenu: [
         {
           accelerator: 'CommandOrControl+R',
-          click: () => BrowserWindow.getFocusedWindow()?.webContents.reload(),
+          click: (): void =>
+            BrowserWindow.getFocusedWindow()?.webContents.reload(),
           label: 'Reload',
           // enabled: canReload,
         },
         {
           accelerator: 'Alt+CommandOrControl+I',
-          click: () =>
+          click: (): void =>
             BrowserWindow.getFocusedWindow()?.webContents.toggleDevTools(),
           label: 'Toggle DevTools',
           // enabled: canToggleDevTools,
@@ -96,56 +93,88 @@ export const createMenu = () => {
       label: 'Window',
       submenu: [
         { accelerator: 'Command+M', label: 'Minimize', role: 'minimize' },
-        MENU_SEPARATOR,
+        { type: 'separator' },
         {
           label: 'Move',
           submenu: [
             {
               accelerator: 'Right',
-              click: () => !isInCaptureMode() && moveViewWindow([1, 0]),
+              click: (): void => {
+                if (!isInCaptureMode()) {
+                  moveViewWindow(1, 0);
+                }
+              },
               enabled: !isInCaptureMode(),
               label: 'Right by 1px',
             },
             {
               accelerator: 'Left',
-              click: () => !isInCaptureMode() && moveViewWindow([-1, 0]),
+              click: (): void => {
+                if (!isInCaptureMode()) {
+                  moveViewWindow(-1, 0);
+                }
+              },
               enabled: !isInCaptureMode(),
               label: 'Left by 1px',
             },
             {
               accelerator: 'Up',
-              click: () => !isInCaptureMode() && moveViewWindow([0, -1]),
+              click: (): void => {
+                if (!isInCaptureMode()) {
+                  moveViewWindow(0, -1);
+                }
+              },
               enabled: !isInCaptureMode(),
               label: 'Up by 1px',
             },
             {
               accelerator: 'Down',
-              click: () => !isInCaptureMode() && moveViewWindow([0, 1]),
+              click: (): void => {
+                if (!isInCaptureMode()) {
+                  moveViewWindow(0, 1);
+                }
+              },
               enabled: !isInCaptureMode(),
               label: 'Down by 1px',
             },
-            MENU_SEPARATOR,
+            { type: 'separator' },
             {
               label: 'Right by 10px',
               enabled: !isInCaptureMode(),
               accelerator: 'Shift+Right',
-              click: () => !isInCaptureMode() && moveViewWindow([10, 0]),
+              click: (): void => {
+                if (!isInCaptureMode()) {
+                  moveViewWindow(10, 0);
+                }
+              },
             },
             {
               accelerator: 'Shift+Left',
-              click: () => !isInCaptureMode() && moveViewWindow([-10, 0]),
+              click: (): void => {
+                if (!isInCaptureMode()) {
+                  moveViewWindow(-10, 0);
+                }
+              },
               enabled: !isInCaptureMode(),
               label: 'Left by 10px',
             },
             {
               accelerator: 'Shift+Up',
-              click: () => !isInCaptureMode() && moveViewWindow([0, -10]),
+              click: (): void => {
+                if (!isInCaptureMode()) {
+                  moveViewWindow(0, -10);
+                }
+              },
               enabled: !isInCaptureMode(),
               label: 'Up by 10px',
             },
             {
               accelerator: 'Shift+Down',
-              click: () => !isInCaptureMode() && moveViewWindow([0, 10]),
+              click: (): void => {
+                if (!isInCaptureMode()) {
+                  moveViewWindow(0, 10);
+                }
+              },
               enabled: !isInCaptureMode(),
               label: 'Down by 10px',
             },
@@ -155,7 +184,6 @@ export const createMenu = () => {
     },
   ];
 
-  // Menu.buildFromTemplate is typed incorrectly
-  menu = Menu.buildFromTemplate(template as any);
+  const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 };

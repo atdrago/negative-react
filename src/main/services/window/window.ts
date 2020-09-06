@@ -41,7 +41,7 @@ const windowStore: { [TKey in WINDOW_TYPE]: BrowserWindow[] } = {
 
 let cachedIsInCaptureMode = false;
 
-function renderCaptureBrowserWindows() {
+function renderCaptureBrowserWindows(): void {
   const displays = screen.getAllDisplays();
 
   // We want to create a new window for each display
@@ -57,7 +57,7 @@ function renderViewBrowserWindow(
   imageUri: string,
   captureBounds: Electron.Rectangle,
   displayBounds: Electron.Rectangle,
-) {
+): void {
   // We want to create a new window for each display
   windowStore[WINDOW_TYPE.VIEW] = [
     ...windowStore[WINDOW_TYPE.VIEW],
@@ -65,7 +65,7 @@ function renderViewBrowserWindow(
   ];
 }
 
-export function destroyCaptureBrowserWindow(targetWindow: BrowserWindow) {
+export function destroyCaptureBrowserWindow(targetWindow: BrowserWindow): void {
   windowStore[WINDOW_TYPE.CAPTURE] = windowStore[WINDOW_TYPE.CAPTURE].reduce(
     (resultWindows, currentWindow) => {
       if (currentWindow === targetWindow) {
@@ -79,7 +79,7 @@ export function destroyCaptureBrowserWindow(targetWindow: BrowserWindow) {
   );
 }
 
-function destroyCaptureBrowserWindows() {
+function destroyCaptureBrowserWindows(): void {
   windowStore[WINDOW_TYPE.CAPTURE] = windowStore[WINDOW_TYPE.CAPTURE].reduce(
     (resultWindows, currentWindow) => {
       currentWindow.destroy();
@@ -90,7 +90,7 @@ function destroyCaptureBrowserWindows() {
   );
 }
 
-export function destroyViewBrowserWindow(targetWindow: BrowserWindow) {
+export function destroyViewBrowserWindow(targetWindow: BrowserWindow): void {
   windowStore[WINDOW_TYPE.VIEW] = windowStore[WINDOW_TYPE.VIEW].reduce(
     (resultWindows, currentWindow) => {
       if (currentWindow === targetWindow) {
@@ -104,7 +104,7 @@ export function destroyViewBrowserWindow(targetWindow: BrowserWindow) {
   );
 }
 
-function destroyViewBrowserWindows() {
+function destroyViewBrowserWindows(): void {
   windowStore[WINDOW_TYPE.VIEW] = windowStore[WINDOW_TYPE.VIEW].reduce(
     (resultWindows, currentWindow) => {
       currentWindow.destroy();
@@ -115,19 +115,19 @@ function destroyViewBrowserWindows() {
   );
 }
 
-function hideCaptureBrowserWindows() {
+function hideCaptureBrowserWindows(): void {
   windowStore[WINDOW_TYPE.CAPTURE].forEach((browserWindow) =>
     browserWindow.hide(),
   );
 }
 
-function hideViewBrowserWindows() {
+function hideViewBrowserWindows(): void {
   windowStore[WINDOW_TYPE.VIEW].forEach((browserWindow) =>
     browserWindow.hide(),
   );
 }
 
-function showOrCreateCaptureBrowserWindows() {
+function showOrCreateCaptureBrowserWindows(): void {
   if (windowStore[WINDOW_TYPE.CAPTURE].length > 0) {
     windowStore[WINDOW_TYPE.CAPTURE].forEach((browserWindow) =>
       browserWindow.show(),
@@ -137,27 +137,27 @@ function showOrCreateCaptureBrowserWindows() {
   }
 }
 
-function showViewBrowserWindows() {
+function showViewBrowserWindows(): void {
   windowStore[WINDOW_TYPE.VIEW].forEach((browserWindow) =>
     browserWindow.show(),
   );
 }
 
-export function destroyAllWindows() {
+export function destroyAllWindows(): void {
   destroyViewBrowserWindows();
   destroyCaptureBrowserWindows();
 }
 
-export const hideAllWindows = () => {
+export const hideAllWindows = (): void => {
   hideViewBrowserWindows();
   hideCaptureBrowserWindows();
 };
 
-export const isInCaptureMode = () => {
+export const isInCaptureMode = (): boolean => {
   return cachedIsInCaptureMode;
 };
 
-export const startCaptureMode = () => {
+export const startCaptureMode = (): void => {
   cachedIsInCaptureMode = true;
 
   hideViewBrowserWindows();
@@ -169,7 +169,7 @@ export const startViewMode = (
   imageUri?: string,
   captureBounds?: Electron.Rectangle,
   displayBounds?: Electron.Rectangle,
-) => {
+): void => {
   cachedIsInCaptureMode = false;
 
   hideCaptureBrowserWindows();

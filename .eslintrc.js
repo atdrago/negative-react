@@ -13,7 +13,9 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   rules: {
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/interface-name-prefix': ['error', 'I'],
+    '@typescript-eslint/interface-name-prefix': ['error', 'always'],
+  },
+  settings: {
+    'import/resolver': { webpack: { config: 'config/webpack.main.config.js' } },
   },
 };

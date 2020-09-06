@@ -1,25 +1,26 @@
 import { DesktopCapturer, IpcRenderer, Remote } from 'electron';
 
-import { CaptureCompleteEvent, CaptureEvent } from 'typings';
+import { ICaptureCompleteEvent, ICaptureEvent } from 'typings';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/interface-name-prefix
   interface Window {
     addEventListener(
       event: 'capture',
-      listener: (event: CaptureEvent) => void,
+      listener: (event: ICaptureEvent) => void,
     ): void;
     addEventListener(
       event: 'capture-complete',
-      listener: (event: CaptureCompleteEvent) => void,
+      listener: (event: ICaptureCompleteEvent) => void,
     ): void;
     desktopCapturer: DesktopCapturer;
     removeEventListener(
       event: 'capture',
-      listener: (event: CaptureEvent) => void,
+      listener: (event: ICaptureEvent) => void,
     ): void;
     removeEventListener(
       event: 'capture-complete',
-      listener: (event: CaptureCompleteEvent) => void,
+      listener: (event: ICaptureCompleteEvent) => void,
     ): void;
     remote: Remote;
     ipcRenderer: IpcRenderer;

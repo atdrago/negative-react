@@ -1,6 +1,3 @@
-import path from 'path';
-import url from 'url';
-
 import { BrowserWindow, ipcMain } from 'electron';
 
 import {
@@ -18,7 +15,7 @@ export function ViewBrowserWindow({
   imageUri,
   captureBounds,
   displayBounds,
-}: IViewBrowserWindowProps) {
+}: IViewBrowserWindowProps): BrowserWindow {
   const browserWindow = new BrowserWindow({
     ...defaultWindowOptions,
     ...{

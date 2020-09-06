@@ -1,5 +1,3 @@
-const path = require('path');
-
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const rules = require('./webpack.rules');

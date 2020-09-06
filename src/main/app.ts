@@ -13,7 +13,7 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-export const init = () => {
+export const init = (): void => {
   app.whenReady().then(() => {
     startCaptureMode();
 

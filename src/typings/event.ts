@@ -1,11 +1,11 @@
 import { BrowserWindow, Rectangle } from 'electron';
 
-export interface CaptureEvent extends Event {
+export interface ICaptureEvent extends Event {
   windowBounds: Rectangle;
   displayBounds: Rectangle;
 }
 
-export interface CaptureCompleteEvent extends Event {
+export interface ICaptureCompleteEvent extends Event {
   imageUri: string;
 }
 
