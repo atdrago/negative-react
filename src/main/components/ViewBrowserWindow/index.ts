@@ -1,0 +1,1 @@
+export { ViewBrowserWindow } from './ViewBrowserWindow';

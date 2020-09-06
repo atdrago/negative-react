@@ -1,6 +1,6 @@
 import { DesktopCapturer, IpcRenderer, Remote } from 'electron';
 
-import { CaptureCompleteEvent, CaptureEvent } from 'typings';
+import { CaptureCompleteEvent, CaptureEvent } from './event';
 
 declare global {
   interface Window {
@@ -26,4 +26,7 @@ declare global {
   }
 }
 
-export {};
+export enum WINDOW_TYPE {
+  CAPTURE = 'CAPTURE',
+  VIEW = 'VIEW',
+}
