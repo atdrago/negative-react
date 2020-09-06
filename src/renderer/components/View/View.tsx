@@ -15,7 +15,7 @@ export const View = () => {
   const [imageUri, setImageUri] = useState('');
   const [imageWidth, setImageWidth] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLocked, setIsLocked] = useState(false);
+  // const [isLocked, setIsLocked] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,7 +42,7 @@ export const View = () => {
   };
 
   return (
-    <Frame isLocked={isLocked} onClick={() => setIsLocked(!isLocked)}>
+    <Frame /* isLocked={isLocked} onClick={() => setIsLocked(!isLocked)} */>
       <Top />
       <Middle style={{ height: imageHeight }}>
         <MiddleLeft />

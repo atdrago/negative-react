@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const Frame = styled.div<{ isLocked: boolean }>`
+export const Frame = styled.div<{ isLocked?: boolean }>`
   align-items: stretch;
   box-sizing: border-box;
   display: flex;
@@ -20,7 +20,7 @@ export const Frame = styled.div<{ isLocked: boolean }>`
     top: 6px;
     right: 12px;
 
-    ${({ isLocked }) =>
+    ${({ isLocked = false }) =>
       isLocked
         ? css`
             transform: translateX(0);
