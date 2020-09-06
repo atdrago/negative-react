@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Capture } from '../Capture';
-import { View } from '../View';
+import { Capture } from 'renderer/components/Capture';
+import { View } from 'renderer/components/View';
 
 import { GlobalStyle } from './styled';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { captureRegionOfScreen } from '../../utils/captureRegionOfScreen';
+import { captureRegionOfScreen } from 'renderer/utils/captureRegionOfScreen';
 
 import { CaptureRegion, Frame } from './styled';
 
