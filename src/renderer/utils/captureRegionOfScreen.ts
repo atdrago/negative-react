@@ -15,7 +15,7 @@ export const captureRegionOfScreen = async (
     } = regionBounds;
     const { height: screenHeight, width: screenWidth } = screenBounds;
 
-    const displayId = window.remote.screen.getDisplayMatching(screenBounds).id;
+    const displayId = window.remoteScreen.getDisplayMatching(screenBounds).id;
 
     const sources = await desktopCapturer.getSources({
       types: ['screen', 'window'],

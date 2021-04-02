@@ -1,3 +1,6 @@
-import { init } from 'main/app';
+import { initialize as initRemote } from '@electron/remote/main';
 
-init();
+import { init as initApp } from 'main/app';
+
+initRemote();
+initApp();

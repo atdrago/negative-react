@@ -1,5 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { desktopCapturer, ipcRenderer, remote } = require('electron');
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const { desktopCapturer, ipcRenderer } = require('electron');
+const { screen } = require('@electron/remote');
+
 window.desktopCapturer = desktopCapturer;
 window.ipcRenderer = ipcRenderer;
-window.remote = remote;
+window.remoteScreen = screen;

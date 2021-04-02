@@ -1,4 +1,4 @@
-import { BrowserWindow, DesktopCapturer, IpcRenderer, Remote } from 'electron';
+import { BrowserWindow, DesktopCapturer, IpcRenderer, Screen } from 'electron';
 
 import { ICaptureCompleteEvent, ICaptureEvent } from 'typings';
 
@@ -22,7 +22,7 @@ declare global {
       event: 'capture-complete',
       listener: (event: ICaptureCompleteEvent) => void,
     ): void;
-    remote: Remote;
+    remoteScreen: Screen;
     ipcRenderer: IpcRenderer;
   }
 }

@@ -60,10 +60,10 @@ export const Capture = () => {
     _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     if (isMouseDown) {
-      const screenPoint = await window.remote.screen.getCursorScreenPoint();
+      const screenPoint = await window.remoteScreen.getCursorScreenPoint();
       const {
         bounds: displayBounds,
-      } = await window.remote.screen.getDisplayNearestPoint(screenPoint);
+      } = await window.remoteScreen.getDisplayNearestPoint(screenPoint);
 
       const regionBounds = {
         height,

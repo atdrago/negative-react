@@ -22,6 +22,7 @@ export const defaultWindowOptions = {
   title: 'Negative',
   transparent: true,
   webPreferences: {
+    contextIsolation: false,
     enableRemoteModule: true,
     preload: path.join(__dirname, 'window-preload.js'),
   },
