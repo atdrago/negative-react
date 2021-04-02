@@ -75,4 +75,10 @@ export const init = (): void => {
   //     focusedWindow.show();
   //   });
   // });
+  app.on('before-quit', () => {
+    // Electron attempts to close all browser windows before quitting, but if it
+    // can't, then it won't quit. So we help Electron out by destroying all our
+    // windows so it doesn't have to.
+    destroyAllBrowserWindows();
+  });
 };
