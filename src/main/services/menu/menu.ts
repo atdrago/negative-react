@@ -1,11 +1,12 @@
 import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from 'electron';
 
 import {
-  destroyAllWindows,
-  hideAllWindows,
+  getBrowserWindowState,
+  hideAllBrowserWindows,
+  isInCaptureMode,
+  setViewBrowserWindowIsLocked,
   startCaptureMode,
   startViewMode,
-  isInCaptureMode,
 } from 'main/services/window';
 
 function moveViewWindow(deltaX: number, deltaY: number): void {
@@ -29,10 +30,9 @@ export const createMenu = (): void => {
         // MENU_SEPARATOR,
         // { label: 'Reset...', click: () => negative.reset() },
         // MENU_SEPARATOR,
-        // { label: 'Lock Negative', accelerator: 'Command+Control+L', click: () => negative.toggleLocking(), type: 'checkbox', checked: isAppLocked },
         {
           accelerator: 'Shift+Alt+CommandOrControl+H',
-          click: (): void => hideAllWindows(),
+          click: (): void => hideAllBrowserWindows(),
           enabled: true,
           label: 'Hide Negative (global)',
           registerAccelerator: false,
@@ -41,7 +41,6 @@ export const createMenu = (): void => {
         {
           accelerator: 'CommandOrControl+Q',
           click: (): void => {
-            destroyAllWindows();
             app.quit();
           },
           label: 'Quit Negative',
@@ -93,6 +92,20 @@ export const createMenu = (): void => {
       label: 'Window',
       submenu: [
         { accelerator: 'Command+M', label: 'Minimize', role: 'minimize' },
+        { type: 'separator' },
+        {
+          accelerator: 'Shift+Alt+CommandOrControl+L',
+          label: 'Lock Window',
+          click: (): void => {
+            const focusedWindow = BrowserWindow.getFocusedWindow();
+
+            if (focusedWindow) {
+              const state = getBrowserWindowState(focusedWindow);
+
+              setViewBrowserWindowIsLocked(focusedWindow, !state?.isLocked);
+            }
+          },
+        },
         { type: 'separator' },
         {
           label: 'Move',

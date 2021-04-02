@@ -6,7 +6,12 @@ import { BrowserWindow, screen } from 'electron';
 import { CaptureBrowserWindow } from 'main/components/CaptureBrowserWindow';
 import { ViewBrowserWindow } from 'main/components/ViewBrowserWindow';
 import { createMenu } from 'main/services/menu';
-import { WINDOW_TYPE } from 'typings';
+import { isPointInRectangle } from 'main/utils/isPointInRectangle';
+import {
+  WINDOW_TYPE,
+  BrowserWindowWithState,
+  IViewBrowserWindowState,
+} from 'typings';
 
 export const defaultWindowOptions = {
   acceptFirstMouse: true,
@@ -34,21 +39,46 @@ export const WINDOW_BASE_URL =
     slashes: true,
   });
 
-const windowStore: { [TKey in WINDOW_TYPE]: BrowserWindow[] } = {
-  [WINDOW_TYPE.CAPTURE]: [],
-  [WINDOW_TYPE.VIEW]: [],
-};
-
+let windowStore: BrowserWindowWithState[] = [];
 let cachedIsInCaptureMode = false;
+
+export function destroyBrowserWindow(targetWindow: BrowserWindow): void {
+  windowStore = windowStore.filter(({ browserWindow }) => {
+    if (browserWindow === targetWindow) {
+      browserWindow.destroy();
+    }
+
+    return browserWindow !== targetWindow;
+  });
+}
+
+export function destroyAllBrowserWindows(): void {
+  windowStore.forEach(({ browserWindow }) => browserWindow.destroy());
+
+  windowStore = [];
+}
+
+export function hideAllBrowserWindows(): void {
+  windowStore.forEach(({ browserWindow }) => browserWindow.hide());
+}
+
+export const isInCaptureMode = (): boolean => {
+  return cachedIsInCaptureMode;
+};
 
 function renderCaptureBrowserWindows(): void {
   const displays = screen.getAllDisplays();
 
-  // We want to create a new window for each display
-  windowStore[WINDOW_TYPE.CAPTURE] = [
-    ...windowStore[WINDOW_TYPE.CAPTURE],
+  windowStore = [
+    ...windowStore,
     ...displays.map((display) => {
-      return CaptureBrowserWindow({ display });
+      const browserWindowWithState: BrowserWindowWithState = {
+        browserWindow: CaptureBrowserWindow({ display }),
+        state: null,
+        type: WINDOW_TYPE.CAPTURE,
+      };
+
+      return browserWindowWithState;
     }),
   ];
 }
@@ -58,109 +88,88 @@ function renderViewBrowserWindow(
   captureBounds: Electron.Rectangle,
   displayBounds: Electron.Rectangle,
 ): void {
-  // We want to create a new window for each display
-  windowStore[WINDOW_TYPE.VIEW] = [
-    ...windowStore[WINDOW_TYPE.VIEW],
-    ViewBrowserWindow({ imageUri, captureBounds, displayBounds }),
+  windowStore = [
+    ...windowStore,
+    {
+      browserWindow: ViewBrowserWindow({
+        imageUri,
+        captureBounds,
+        displayBounds,
+      }),
+      state: { isLocked: false },
+      type: WINDOW_TYPE.VIEW,
+    },
   ];
 }
 
-export function destroyCaptureBrowserWindow(targetWindow: BrowserWindow): void {
-  windowStore[WINDOW_TYPE.CAPTURE] = windowStore[WINDOW_TYPE.CAPTURE].reduce(
-    (resultWindows, currentWindow) => {
-      if (currentWindow === targetWindow) {
-        currentWindow.destroy();
-        return resultWindows;
-      }
-
-      return [...resultWindows, currentWindow];
-    },
-    [] as BrowserWindow[],
+export const getBrowserWindowState = (
+  targetWindow: BrowserWindow,
+): IViewBrowserWindowState | null | undefined => {
+  const windowWithState = windowStore.find(
+    ({ browserWindow }) => targetWindow === browserWindow,
   );
-}
 
-function destroyCaptureBrowserWindows(): void {
-  windowStore[WINDOW_TYPE.CAPTURE] = windowStore[WINDOW_TYPE.CAPTURE].reduce(
-    (resultWindows, currentWindow) => {
-      currentWindow.destroy();
+  if (windowWithState) {
+    return windowWithState.state;
+  }
+};
 
-      return resultWindows;
-    },
-    [] as never[],
+export const setBrowserWindowState = (
+  targetWindow: BrowserWindow,
+  state: IViewBrowserWindowState,
+): void => {
+  const windowWithState = windowStore.find(
+    ({ browserWindow }) => targetWindow === browserWindow,
   );
-}
 
-export function destroyViewBrowserWindow(targetWindow: BrowserWindow): void {
-  windowStore[WINDOW_TYPE.VIEW] = windowStore[WINDOW_TYPE.VIEW].reduce(
-    (resultWindows, currentWindow) => {
-      if (currentWindow === targetWindow) {
-        currentWindow.destroy();
-        return resultWindows;
-      }
+  if (windowWithState) {
+    windowWithState.state = state;
 
-      return [...resultWindows, currentWindow];
-    },
-    [] as BrowserWindow[],
+    windowWithState.browserWindow.webContents.send('state-change', state);
+  }
+};
+
+export const setViewBrowserWindowIsLocked = (
+  targetWindow: BrowserWindow,
+  isLocked: boolean,
+): void => {
+  const windowWithState = windowStore.find(
+    ({ browserWindow }) => targetWindow === browserWindow,
   );
-}
 
-function destroyViewBrowserWindows(): void {
-  windowStore[WINDOW_TYPE.VIEW] = windowStore[WINDOW_TYPE.VIEW].reduce(
-    (resultWindows, currentWindow) => {
-      currentWindow.destroy();
-
-      return resultWindows;
-    },
-    [] as never[],
-  );
-}
-
-function hideCaptureBrowserWindows(): void {
-  windowStore[WINDOW_TYPE.CAPTURE].forEach((browserWindow) =>
-    browserWindow.hide(),
-  );
-}
-
-function hideViewBrowserWindows(): void {
-  windowStore[WINDOW_TYPE.VIEW].forEach((browserWindow) =>
-    browserWindow.hide(),
-  );
-}
+  if (windowWithState) {
+    windowWithState.browserWindow.setIgnoreMouseEvents(isLocked);
+    setBrowserWindowState(targetWindow, {
+      ...windowWithState.state,
+      isLocked,
+    });
+  }
+};
 
 function showOrCreateCaptureBrowserWindows(): void {
-  if (windowStore[WINDOW_TYPE.CAPTURE].length > 0) {
-    windowStore[WINDOW_TYPE.CAPTURE].forEach((browserWindow) =>
-      browserWindow.show(),
-    );
+  const captureBrowserWindows = windowStore.filter(
+    ({ type }) => type === WINDOW_TYPE.CAPTURE,
+  );
+
+  if (captureBrowserWindows.length > 0) {
+    captureBrowserWindows.forEach(({ browserWindow }) => browserWindow.show());
   } else {
     renderCaptureBrowserWindows();
   }
 }
 
 function showViewBrowserWindows(): void {
-  windowStore[WINDOW_TYPE.VIEW].forEach((browserWindow) =>
-    browserWindow.show(),
-  );
+  windowStore.forEach(({ browserWindow, type }) => {
+    if (type === WINDOW_TYPE.VIEW) {
+      browserWindow.show();
+    }
+  });
 }
-
-export function destroyAllWindows(): void {
-  destroyViewBrowserWindows();
-  destroyCaptureBrowserWindows();
-}
-
-export const hideAllWindows = (): void => {
-  hideViewBrowserWindows();
-  hideCaptureBrowserWindows();
-};
-
-export const isInCaptureMode = (): boolean => {
-  return cachedIsInCaptureMode;
-};
 
 export const startCaptureMode = (): void => {
   cachedIsInCaptureMode = true;
 
-  hideViewBrowserWindows();
+  hideAllBrowserWindows();
   showOrCreateCaptureBrowserWindows();
   createMenu();
 };
@@ -172,13 +181,24 @@ export const startViewMode = (
 ): void => {
   cachedIsInCaptureMode = false;
 
-  hideCaptureBrowserWindows();
+  hideAllBrowserWindows();
   showViewBrowserWindows();
   if (imageUri && captureBounds && displayBounds) {
     renderViewBrowserWindow(imageUri, captureBounds, displayBounds);
   }
   createMenu();
 };
+
+export function getBrowserWindowStatesUnderCursor(): BrowserWindowWithState[] {
+  const cursorPoint = screen.getCursorScreenPoint();
+
+  return windowStore.filter(({ browserWindow, type }) => {
+    return (
+      type === WINDOW_TYPE.VIEW &&
+      isPointInRectangle(cursorPoint, browserWindow.getBounds())
+    );
+  });
+}
 
 // rebuildCaptureWindows() {
 //   this._destroyCaptureBrowserWindows();

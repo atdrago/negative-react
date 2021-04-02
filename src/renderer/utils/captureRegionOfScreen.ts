@@ -21,13 +21,9 @@ export const captureRegionOfScreen = async (
       types: ['screen', 'window'],
     });
 
-    console.log(sources);
-
     const displaySource = sources.find(
       (source) => `${source.display_id}` === `${displayId}`,
     );
-
-    console.log(displaySource);
 
     // Filter: main screen
     if (displaySource) {
@@ -64,10 +60,8 @@ export const captureRegionOfScreen = async (
 
           // Draw video on canvas
           var ctx = canvas.getContext('2d');
-          // ctx && ctx.drawImage(video, x, y, width, height, 0, 0, width, height);
-          if (ctx) {
-            // await window.ipcRenderer.invoke('hide-focused-window');
 
+          if (ctx) {
             ctx.drawImage(
               video,
               regionX,
@@ -79,7 +73,6 @@ export const captureRegionOfScreen = async (
               regionWidth,
               regionHeight,
             );
-            // await window.ipcRenderer.invoke('show-focused-window');
           }
 
           const uri = canvas.toDataURL('image/jpeg', 0.8);

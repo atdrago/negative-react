@@ -1,4 +1,4 @@
-import { DesktopCapturer, IpcRenderer, Remote } from 'electron';
+import { BrowserWindow, DesktopCapturer, IpcRenderer, Remote } from 'electron';
 
 import { ICaptureCompleteEvent, ICaptureEvent } from 'typings';
 
@@ -31,3 +31,21 @@ export enum WINDOW_TYPE {
   CAPTURE = 'CAPTURE',
   VIEW = 'VIEW',
 }
+
+export interface IViewBrowserWindowState {
+  isLocked: boolean;
+}
+
+export type BrowserWindowWithState = {
+  browserWindow: BrowserWindow;
+  type: WINDOW_TYPE;
+} & (
+  | {
+      state: IViewBrowserWindowState;
+      type: typeof WINDOW_TYPE.VIEW;
+    }
+  | {
+      state: null;
+      type: typeof WINDOW_TYPE.CAPTURE;
+    }
+);

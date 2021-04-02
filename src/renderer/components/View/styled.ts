@@ -4,11 +4,11 @@ export const Frame = styled.div<{ isLocked?: boolean }>`
   align-items: stretch;
   box-sizing: border-box;
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
+  flex-grow: 1;
   height: 100%;
-  overflow: hidden;
   justify-content: center;
+  overflow: hidden;
   position: relative;
   width: 100%;
 
@@ -16,20 +16,12 @@ export const Frame = styled.div<{ isLocked?: boolean }>`
     color: white;
     content: '☁︎';
     font-size: 1.2rem;
+    opacity: ${({ isLocked }) => (isLocked ? '1' : '0')};
     position: absolute;
     top: 6px;
     right: 12px;
-
-    ${({ isLocked = false }) =>
-      isLocked
-        ? css`
-            transform: translateX(0);
-            transition: transform 300ms ease-out;
-          `
-        : css`
-            transform: translateX(30px);
-            transition: transform 300ms ease-in;
-          `}
+    transform: translateX(${({ isLocked }) => (isLocked ? '0' : '30px')});
+    transition: transform 200ms ease-out, opacity 200ms ease-out;
   }
 `;
 

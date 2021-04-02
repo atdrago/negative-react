@@ -9,13 +9,14 @@ import {
   MiddleLeft,
   MiddleRight,
 } from './styled';
+import { IViewBrowserWindowState } from 'typings';
 
 export const View = () => {
   const [imageHeight, setImageHeight] = useState(0);
   const [imageUri, setImageUri] = useState('');
   const [imageWidth, setImageWidth] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  // const [isLocked, setIsLocked] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -37,12 +38,26 @@ export const View = () => {
     );
   }, []);
 
+  useEffect(() => {
+    const handleStateChange = (_event: any, state: IViewBrowserWindowState) => {
+      if (state.isLocked !== isLocked) {
+        setIsLocked(state.isLocked);
+      }
+    };
+
+    window.ipcRenderer.on('state-change', handleStateChange);
+
+    return () => {
+      window.ipcRenderer.off('state-change', handleStateChange);
+    };
+  }, [isLocked]);
+
   const handleLoad = () => {
     setIsLoading(false);
   };
 
   return (
-    <Frame /* isLocked={isLocked} onClick={() => setIsLocked(!isLocked)} */>
+    <Frame isLocked={isLocked}>
       <Top />
       <Middle style={{ height: imageHeight }}>
         <MiddleLeft />

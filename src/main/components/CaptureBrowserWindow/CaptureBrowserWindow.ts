@@ -2,7 +2,7 @@ import { BrowserWindow } from 'electron';
 
 import {
   defaultWindowOptions,
-  destroyCaptureBrowserWindow,
+  destroyBrowserWindow,
   WINDOW_BASE_URL,
 } from 'main/services/window';
 import {
@@ -38,7 +38,7 @@ export function CaptureBrowserWindow({
   browserWindow.setAlwaysOnTop(true, 'screen-saver');
 
   browserWindow.on('closed', ({ sender }: IBrowserWindowEvent) => {
-    destroyCaptureBrowserWindow(sender);
+    destroyBrowserWindow(sender);
   });
 
   browserWindow.loadURL(`${WINDOW_BASE_URL}?type=${WINDOW_TYPE.CAPTURE}`);

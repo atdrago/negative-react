@@ -1,7 +1,7 @@
 import { BrowserWindow, ipcMain } from 'electron';
 
 import {
-  destroyViewBrowserWindow,
+  destroyBrowserWindow,
   defaultWindowOptions,
   WINDOW_BASE_URL,
 } from 'main/services/window';
@@ -26,8 +26,8 @@ export function ViewBrowserWindow({
     },
   });
 
-  browserWindow.on('closed', (event: IBrowserWindowEvent) => {
-    destroyViewBrowserWindow(event.sender);
+  browserWindow.on('closed', ({ sender }: IBrowserWindowEvent) => {
+    destroyBrowserWindow(sender);
   });
 
   browserWindow.on('focus', () => {

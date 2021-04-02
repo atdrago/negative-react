@@ -1,7 +1,11 @@
 import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron';
 
 import {
-  hideAllWindows,
+  destroyAllBrowserWindows,
+  getBrowserWindowState,
+  getBrowserWindowStatesUnderCursor,
+  hideAllBrowserWindows,
+  setViewBrowserWindowIsLocked,
   isInCaptureMode,
   startCaptureMode,
   startViewMode,
@@ -26,7 +30,7 @@ export const init = (): void => {
     );
 
     ipcMain.handle('capture-keyup-escape', () => {
-      hideAllWindows();
+      hideAllBrowserWindows();
     });
 
     globalShortcut.register('Shift+Alt+CommandOrControl+G', () => {
@@ -37,7 +41,34 @@ export const init = (): void => {
 
     globalShortcut.register('Shift+Alt+CommandOrControl+H', () => {
       if (BrowserWindow.getFocusedWindow()) {
-        hideAllWindows();
+        hideAllBrowserWindows();
+      } else if (isInCaptureMode()) {
+        startCaptureMode();
+      } else {
+        startViewMode();
+      }
+    });
+
+    globalShortcut.register('Shift+Alt+CommandOrControl+L', () => {
+      const browserWindowStates = getBrowserWindowStatesUnderCursor();
+
+      if (browserWindowStates.length > 0) {
+        browserWindowStates.forEach(({ browserWindow, state }) => {
+          setViewBrowserWindowIsLocked(browserWindow, !state?.isLocked);
+        });
+
+        return;
+      }
+
+      const focusedWindow = BrowserWindow.getFocusedWindow();
+      const focusedWindowState =
+        focusedWindow && getBrowserWindowState(focusedWindow);
+
+      if (focusedWindow) {
+        setViewBrowserWindowIsLocked(
+          focusedWindow,
+          !focusedWindowState?.isLocked,
+        );
       } else if (isInCaptureMode()) {
         startCaptureMode();
       } else {
@@ -67,14 +98,6 @@ export const init = (): void => {
     }
   });
 
-  // ipcMain.handle('hide-focused-window', async () => {
-  //   const focusedWindow = BrowserWindow.getFocusedWindow();
-  //   focusedWindow.hide();
-
-  //   ipcMain.handleOnce('show-focused-window', async () => {
-  //     focusedWindow.show();
-  //   });
-  // });
   app.on('before-quit', () => {
     // Electron attempts to close all browser windows before quitting, but if it
     // can't, then it won't quit. So we help Electron out by destroying all our
