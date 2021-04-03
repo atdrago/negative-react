@@ -60,11 +60,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run make script
-        run: npm run make
-
-      - name: Deploy assets to GitHub Release
-        if: ${{ success() }}
+      - name: Package, make, and publish to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run publish
   build-windows:
     runs-on: windows-latest
@@ -92,9 +90,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run make script
-        run: npm run make
-
-      - name: Deploy assets to GitHub Release
-        if: ${{ success() }}
+      - name: Package, make, and publish to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run publish
