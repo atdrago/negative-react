@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-macos:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,5 +27,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run make script
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
