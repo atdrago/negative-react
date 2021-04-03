@@ -1,17 +1,16 @@
-name: Release
+name: Publish Windows
 
 on:
-  workflow_dispatch:
+  repository_dispatch:
+    types: [trigger-publish]
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
+  build-windows:
+    runs-on: windows-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -29,15 +28,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Create release
+      - name: Package, make, and publish to GitHub Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: npx semantic-release
-
-      - name: Trigger publish
-        if: ${{ success() }}
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          repository: ${{ github.repository }}
-          event-type: trigger-publish
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run publish
