@@ -4,6 +4,10 @@
   "version": "0.1.0",
   "description": "A tool for making visual comparisons",
   "main": ".webpack/main",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atdrago/negative-react.git"
+  },
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -70,6 +74,8 @@
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.54",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@types/styled-components": "^5.1.9",
@@ -90,6 +96,7 @@
     "node-abi": "^2.21.0",
     "node-loader": "^1.0.2",
     "prettier": "^2.2.1",
+    "semantic-release": "^17.4.2",
     "ts-loader": "^8.1.0",
     "tsconfig-paths-webpack-plugin": "^3.5.1",
     "typescript": "^4.2.3"
@@ -106,5 +113,17 @@
     "tabWidth": 2,
     "semi": true,
     "singleQuote": true
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
   }
 }
