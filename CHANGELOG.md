@@ -1,3 +1,10 @@
+## [0.2.8](https://github.com/atdrago/negative-react/compare/v0.2.7...v0.2.8) (2021-04-04)
+
+
+### Bug Fixes
+
+* **ci:** Sign framework before app ([9946d1c](https://github.com/atdrago/negative-react/commit/9946d1c5db0a8dd125fad610f39ca2db7c9c6e32))
+
 ## [0.2.7](https://github.com/atdrago/negative-react/compare/v0.2.6...v0.2.7) (2021-04-04)
 
 
