@@ -1,3 +1,10 @@
+## [0.2.4](https://github.com/atdrago/negative-react/compare/v0.2.3...v0.2.4) (2021-04-04)
+
+
+### Bug Fixes
+
+* **ci:** Separate security commands ([24194ba](https://github.com/atdrago/negative-react/commit/24194baab2ee38689b64f5578143c163208cceb4))
+
 ## [0.2.3](https://github.com/atdrago/negative-react/compare/v0.2.2...v0.2.3) (2021-04-04)
 
 
