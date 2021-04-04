@@ -1,7 +1,7 @@
 {
   "name": "negative-react",
   "productName": "Negative",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A tool for making visual comparisons",
   "main": ".webpack/main",
   "repository": {
@@ -124,9 +124,12 @@
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      ["@semantic-release/npm", {
-        "npmPublish": false
-      }],
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
       "@semantic-release/changelog",
       [
         "@semantic-release/git",

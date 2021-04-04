@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/atdrago/negative-react/compare/v0.2.0...v0.2.1) (2021-04-04)
+
+
+### Bug Fixes
+
+* **ci:** Code sign macOS build ([1780072](https://github.com/atdrago/negative-react/commit/17800726fd460e1c40448404138b3ef6bdaa6708))
+
 # [0.2.0](https://github.com/atdrago/negative-react/compare/v0.1.0...v0.2.0) (2021-04-03)
 
 
