@@ -1,3 +1,10 @@
+## [0.2.7](https://github.com/atdrago/negative-react/compare/v0.2.6...v0.2.7) (2021-04-04)
+
+
+### Bug Fixes
+
+* **ci:** Add missing folder in path to app ([60300b2](https://github.com/atdrago/negative-react/commit/60300b29b296cd8c5459161a16e40f0d232c4fb2))
+
 ## [0.2.6](https://github.com/atdrago/negative-react/compare/v0.2.5...v0.2.6) (2021-04-04)
 
 
