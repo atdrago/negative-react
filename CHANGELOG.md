@@ -1,3 +1,10 @@
+## [0.2.9](https://github.com/atdrago/negative-react/compare/v0.2.8...v0.2.9) (2021-04-04)
+
+
+### Bug Fixes
+
+* **ci:** Sign Electron Framework ([fb5f7f6](https://github.com/atdrago/negative-react/commit/fb5f7f674b711807adeaa2a84be64729566daebe))
+
 ## [0.2.8](https://github.com/atdrago/negative-react/compare/v0.2.7...v0.2.8) (2021-04-04)
 
 
