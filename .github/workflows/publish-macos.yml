@@ -17,22 +17,14 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Restore cache
-        uses: actions/cache@v2
-        with:
-          path: ~/node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_modules-
-
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Package
         run: npm run package
 
       - name: Decode certificate
-        id: decode-certificate
+        id: decode_certificate
         uses: timheuer/base64-to-file@v1
         with:
           fileName: 'certificate.p12'
@@ -46,7 +38,7 @@ jobs:
           security create-keychain -p tmp-password build.keychain
           security default-keychain -s build.keychain
           security unlock-keychain -p tmp-password build.keychain
-          security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+          security import ${{ steps.decode_certificate.outputs.filePath }} -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k tmp-password build.keychain
           /usr/bin/codesign --force -s FPEMKZSSJC ./out/Negative.app -v
 
