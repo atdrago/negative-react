@@ -1,3 +1,10 @@
+## [0.2.6](https://github.com/atdrago/negative-react/compare/v0.2.5...v0.2.6) (2021-04-04)
+
+
+### Bug Fixes
+
+* **ci:** Use github.workspace instead of ./ ([899e0ec](https://github.com/atdrago/negative-react/commit/899e0ec68c374f22ca7f08f1344dd209e2ce9284))
+
 ## [0.2.5](https://github.com/atdrago/negative-react/compare/v0.2.4...v0.2.5) (2021-04-04)
 
 
