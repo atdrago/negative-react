@@ -40,7 +40,7 @@ jobs:
           security unlock-keychain -p tmp-password build.keychain
           security import ${{ steps.decode_certificate.outputs.filePath }} -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k tmp-password build.keychain
-          /usr/bin/codesign --force -s FPEMKZSSJC ./out/Negative.app -v
+          /usr/bin/codesign --force -s FPEMKZSSJC ${{ github.workspace }}/out/Negative.app -v
 
       - name: Make and publish to GitHub Release
         env:
