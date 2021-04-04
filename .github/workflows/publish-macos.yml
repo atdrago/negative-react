@@ -43,7 +43,8 @@ jobs:
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
           MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
         run: |
-          security create-keychain -p tmp-password build.keychain security default-keychain -s build.keychain
+          security create-keychain -p tmp-password build.keychain
+          security default-keychain -s build.keychain
           security unlock-keychain -p tmp-password build.keychain
           security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k tmp-password build.keychain
