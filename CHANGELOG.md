@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/atdrago/negative-react/compare/v0.2.1...v0.2.2) (2021-04-04)
+
+
+### Bug Fixes
+
+* **ci:** Missing - when in `base64 --decode` ([1042375](https://github.com/atdrago/negative-react/commit/1042375c2d55c3e848598e7a31ec14fe22a74a49))
+
 ## [0.2.1](https://github.com/atdrago/negative-react/compare/v0.2.0...v0.2.1) (2021-04-04)
 
 
