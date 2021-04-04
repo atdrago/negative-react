@@ -1,3 +1,10 @@
+## [0.2.3](https://github.com/atdrago/negative-react/compare/v0.2.2...v0.2.3) (2021-04-04)
+
+
+### Bug Fixes
+
+* **ci:** Remove usage of base64 util ([9b65916](https://github.com/atdrago/negative-react/commit/9b65916ab49fd84326819e15a8368732dd698fc5))
+
 ## [0.2.2](https://github.com/atdrago/negative-react/compare/v0.2.1...v0.2.2) (2021-04-04)
 
 
