@@ -1,3 +1,10 @@
+## [0.2.5](https://github.com/atdrago/negative-react/compare/v0.2.4...v0.2.5) (2021-04-04)
+
+
+### Bug Fixes
+
+* **ci:** Fix path to certificate ([06d71d4](https://github.com/atdrago/negative-react/commit/06d71d487e8c8eafaef277fa28e45c8d7b578185))
+
 ## [0.2.4](https://github.com/atdrago/negative-react/compare/v0.2.3...v0.2.4) (2021-04-04)
 
 
