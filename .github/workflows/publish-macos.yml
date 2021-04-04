@@ -28,7 +28,22 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Package, make, and publish to GitHub Release
+      - name: Package
+        run: npm run package
+
+      - name: Code sign
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+        run: |
+          echo $MACOS_CERTIFICATE | base64 —decode > certificate.p12
+          security create-keychain -p tmp-password build.keychain security default-keychain -s build.keychain
+          security unlock-keychain -p tmp-password build.keychain
+          security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k tmp-password build.keychain
+          /usr/bin/codesign --force -s FPEMKZSSJC ./out/Negative.app -v
+
+      - name: Make and publish to GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run publish
