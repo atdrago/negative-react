@@ -26,7 +26,6 @@ const config = {
     appBundleId,
     appVersion,
     asar: true,
-    executableName,
     name,
     osxSign: {
       app: paths.appPath,
