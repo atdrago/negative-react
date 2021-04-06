@@ -1,6 +1,6 @@
 # Negative 2
 
-> This repository is Work In-Progress. At this time, setup requires cloning the repository, installing all developer dependencies, and launching the app via command line. As we add features, we'll expand upon this README.
+> This repository is Work In-Progress. At this time, setup requires cloning the repository, installing all developer dependencies, and launching the app via command line. This README will be updated as features are added.
 
 ## Setup
 
