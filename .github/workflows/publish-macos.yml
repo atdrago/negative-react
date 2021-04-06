@@ -20,26 +20,26 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Package
-        run: npm run package
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-
-      - name: Decode certificate
-        id: decode_certificate
-        uses: timheuer/base64-to-file@v1
-        with:
-          fileName: 'certificate.p12'
-          encodedString: ${{ secrets.MACOS_CERTIFICATE }}
-
-      - name: Code sign
+      - name: Add certificate
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
           MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
         run: chmod +x ./add-macos-cert.sh && ./add-macos-cert.sh
+
+      - name: Package
+        run: npm run package
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+
+      # - name: Decode certificate
+      #   id: decode_certificate
+      #   uses: timheuer/base64-to-file@v1
+      #   with:
+      #     fileName: 'certificate.p12'
+      #     encodedString: ${{ secrets.MACOS_CERTIFICATE }}
 
       - name: Make and publish to GitHub Release
         env:
