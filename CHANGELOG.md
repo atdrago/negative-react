@@ -1,3 +1,11 @@
+## [0.2.17](https://github.com/atdrago/negative-react/compare/v0.2.16...v0.2.17) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Remove `codesign:` from set-key-partition-list ([fc697cd](https://github.com/atdrago/negative-react/commit/fc697cdaff895ff1ca3ff2bd5c95a5265c2b8506))
+* **ci:** Remove signature-flags property from osxSign options ([9fbb229](https://github.com/atdrago/negative-react/commit/9fbb22943838afd97c0406acaa46b24fc1af5bee))
+
 ## [0.2.16](https://github.com/atdrago/negative-react/compare/v0.2.15...v0.2.16) (2021-04-06)
 
 
