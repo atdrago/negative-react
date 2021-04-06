@@ -29,12 +29,11 @@ const config = {
     name,
     osxSign: {
       app: paths.appPath,
-      identity: `Developer ID Application: ${teamName} (${teamId})`,
-      hardenedRuntime: true,
-      'gatekeeper-assess': false,
       entitlements: paths.entitlements,
       'entitlements-inherit': paths.entitlements,
-      'signature-flags': 'library',
+      'gatekeeper-assess': false,
+      hardenedRuntime: true,
+      identity: `Developer ID Application: ${teamName} (${teamId})`,
     },
   },
   plugins: [
