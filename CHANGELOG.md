@@ -1,3 +1,10 @@
+## [0.2.13](https://github.com/atdrago/negative-react/compare/v0.2.12...v0.2.13) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Incorrect path to bash file ([648a710](https://github.com/atdrago/negative-react/commit/648a7108edef93ebd8ee7f1310a5de8f0157b5cc))
+
 ## [0.2.12](https://github.com/atdrago/negative-react/compare/v0.2.11...v0.2.12) (2021-04-06)
 
 
