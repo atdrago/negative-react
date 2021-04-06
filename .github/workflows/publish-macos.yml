@@ -34,15 +34,7 @@ jobs:
         env:
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
           MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
-        run: |
-          security create-keychain -p tmp-password build.keychain
-          security default-keychain -s build.keychain
-          security unlock-keychain -p tmp-password build.keychain
-          security import ${{ steps.decode_certificate.outputs.filePath }} -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k tmp-password build.keychain
-          /usr/bin/codesign --force -s FPEMKZSSJC ./out/Negative-darwin-x64/Negative.app/Contents/Frameworks/Negative\ Helper.app -v
-          /usr/bin/codesign --force -s FPEMKZSSJC ./out/Negative-darwin-x64/Negative.app/Contents/Frameworks/Electron\ Framework.framework -v
-          /usr/bin/codesign --force -s FPEMKZSSJC ./out/Negative-darwin-x64/Negative.app -v
+        run: chmod +x ./add-macos-cert.sh && ./add-macos-cert.sh
 
       - name: Make and publish to GitHub Release
         env:
