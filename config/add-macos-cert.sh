@@ -21,3 +21,6 @@ security set-key-partition-list -S apple-tool:,apple: -s -k tmp-password $KEY_CH
 
 # remove certs
 rm -fr *.p12
+
+# Verify identify in keychain
+security find-identity -v
