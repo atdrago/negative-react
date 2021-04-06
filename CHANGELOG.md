@@ -1,3 +1,11 @@
+## [0.2.15](https://github.com/atdrago/negative-react/compare/v0.2.14...v0.2.15) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Remove executableName from packagerConfig ([126afc7](https://github.com/atdrago/negative-react/commit/126afc7212c0921253dff301f1f0d3f1034ae511))
+* **ci:** Try adding cert and publishing in the same step ([61cb743](https://github.com/atdrago/negative-react/commit/61cb743e2a65e7dbffd7ed7c22f298d42de094b0))
+
 ## [0.2.14](https://github.com/atdrago/negative-react/compare/v0.2.13...v0.2.14) (2021-04-06)
 
 
