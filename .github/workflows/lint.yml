@@ -15,15 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/cache@v2
-        with:
-          path: ~/node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_modules-
-
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run make script
         run: npm run lint
