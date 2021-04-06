@@ -1,3 +1,10 @@
+## [0.2.14](https://github.com/atdrago/negative-react/compare/v0.2.13...v0.2.14) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Fix windows build and reorder mac steps ([ac1f60b](https://github.com/atdrago/negative-react/commit/ac1f60bfa16c59f58f210f4428edfb6799977c44))
+
 ## [0.2.13](https://github.com/atdrago/negative-react/compare/v0.2.12...v0.2.13) (2021-04-06)
 
 
