@@ -1,3 +1,10 @@
+## [0.2.18](https://github.com/atdrago/negative-react/compare/v0.2.17...v0.2.18) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Add extra entitlement ([1d57967](https://github.com/atdrago/negative-react/commit/1d579679c2fc0318c1283ae430740774d6e03e21))
+
 ## [0.2.17](https://github.com/atdrago/negative-react/compare/v0.2.16...v0.2.17) (2021-04-06)
 
 
