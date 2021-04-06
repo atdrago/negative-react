@@ -1,3 +1,10 @@
+## [0.2.10](https://github.com/atdrago/negative-react/compare/v0.2.9...v0.2.10) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Move forge config to js file, rewrite build ([38a7c62](https://github.com/atdrago/negative-react/commit/38a7c62b3975edade65c38deb321182f9f88d7cf))
+
 ## [0.2.9](https://github.com/atdrago/negative-react/compare/v0.2.8...v0.2.9) (2021-04-04)
 
 
