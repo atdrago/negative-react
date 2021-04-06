@@ -1,3 +1,10 @@
+## [0.2.12](https://github.com/atdrago/negative-react/compare/v0.2.11...v0.2.12) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Add certificate before signing ([1580451](https://github.com/atdrago/negative-react/commit/1580451cad25d75f72aa9485d03e79fa377708bc))
+
 ## [0.2.11](https://github.com/atdrago/negative-react/compare/v0.2.10...v0.2.11) (2021-04-06)
 
 
