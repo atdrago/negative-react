@@ -1,3 +1,10 @@
+## [0.2.11](https://github.com/atdrago/negative-react/compare/v0.2.10...v0.2.11) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Add missing environment variables ([0beedb0](https://github.com/atdrago/negative-react/commit/0beedb063f67c049e8dc42d31c3d808b6b679862))
+
 ## [0.2.10](https://github.com/atdrago/negative-react/compare/v0.2.9...v0.2.10) (2021-04-06)
 
 
