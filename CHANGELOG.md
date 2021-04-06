@@ -1,3 +1,15 @@
+## [0.2.16](https://github.com/atdrago/negative-react/compare/v0.2.15...v0.2.16) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Change temporary keychain password ([de807e5](https://github.com/atdrago/negative-react/commit/de807e54f78da2edc9b20fbc603b7b1bcc95e6bc))
+
+
+### Reverts
+
+* "fix(ci): Try adding cert and publishing in the same step" ([8314fe5](https://github.com/atdrago/negative-react/commit/8314fe5a8b39f54f2c733b0a2f861bb07efd014e))
+
 ## [0.2.15](https://github.com/atdrago/negative-react/compare/v0.2.14...v0.2.15) (2021-04-06)
 
 
