@@ -22,6 +22,9 @@ jobs:
 
       - name: Package
         run: npm run package
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
 
       - name: Decode certificate
         id: decode_certificate
@@ -32,6 +35,8 @@ jobs:
 
       - name: Code sign
         env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
           MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
         run: chmod +x ./add-macos-cert.sh && ./add-macos-cert.sh
