@@ -1,3 +1,10 @@
+## [0.2.19](https://github.com/atdrago/negative-react/compare/v0.2.18...v0.2.19) (2021-04-06)
+
+
+### Bug Fixes
+
+* **ci:** Verify identity after creating keychain ([6211b0b](https://github.com/atdrago/negative-react/commit/6211b0bf2a16d4d6315349f652c6473dee2c4738))
+
 ## [0.2.18](https://github.com/atdrago/negative-react/compare/v0.2.17...v0.2.18) (2021-04-06)
 
 
