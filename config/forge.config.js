@@ -15,9 +15,6 @@ const config = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {
-        name: executableName,
-      },
     },
     {
       name: '@electron-forge/maker-zip',
