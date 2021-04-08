@@ -15,20 +15,20 @@ export const Capture = () => {
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
 
-  const handleMouseDown = async (
+  function handleMouseDown(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => {
+  ) {
     setIsMouseDown(true);
 
     setMouseDownX(event.clientX);
     setMouseDownY(event.clientY);
     setLeft(event.clientX);
     setTop(event.clientY);
-  };
+  }
 
-  const handleMouseMove = (
+  function handleMouseMove(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => {
+  ) {
     if (isMouseDown) {
       const { clientX, clientY } = event;
 
@@ -54,11 +54,11 @@ export const Capture = () => {
       }, 0);
       setIsFrameFocused(true);
     }
-  };
+  }
 
-  const handleMouseUp = async (
+  async function handleMouseUp(
     _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => {
+  ) {
     if (isMouseDown) {
       const screenPoint = await window.remoteScreen.getCursorScreenPoint();
       const {
@@ -87,14 +87,14 @@ export const Capture = () => {
     setLeft(0);
     setTop(0);
     setWidth(0);
-  };
+  }
 
-  const handleMouseLeave = () => {
+  function handleMouseLeave() {
     setIsFrameFocused(false);
-  };
+  }
 
   useEffect(() => {
-    const handleKeyUp = (event: KeyboardEvent) => {
+    function handleKeyUp(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         // If Escape is pressed while dragging the capture region, stop the
         // capture and reset it to defaults
@@ -111,7 +111,7 @@ export const Capture = () => {
           window.ipcRenderer.invoke('capture-keyup-escape');
         }
       }
-    };
+    }
 
     window.addEventListener('keyup', handleKeyUp, false);
 
