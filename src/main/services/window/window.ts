@@ -13,6 +13,9 @@ import {
   IViewBrowserWindowState,
 } from 'typings';
 
+let cachedIsInCaptureMode = false;
+let windowStore: BrowserWindowWithState[] = [];
+
 export const defaultWindowOptions = {
   acceptFirstMouse: true,
   alwaysOnTop: true,
@@ -40,9 +43,6 @@ export const WINDOW_BASE_URL =
     slashes: true,
   });
 
-let windowStore: BrowserWindowWithState[] = [];
-let cachedIsInCaptureMode = false;
-
 export function destroyBrowserWindow(targetWindow: BrowserWindow): void {
   windowStore = windowStore.filter(({ browserWindow }) => {
     if (browserWindow === targetWindow) {
@@ -59,13 +59,36 @@ export function destroyAllBrowserWindows(): void {
   windowStore = [];
 }
 
+export function getBrowserWindowState(
+  targetWindow: BrowserWindow,
+): IViewBrowserWindowState | null | undefined {
+  const windowWithState = windowStore.find(
+    ({ browserWindow }) => targetWindow === browserWindow,
+  );
+
+  if (windowWithState) {
+    return windowWithState.state;
+  }
+}
+
+export function getBrowserWindowStatesUnderCursor(): BrowserWindowWithState[] {
+  const cursorPoint = screen.getCursorScreenPoint();
+
+  return windowStore.filter(({ browserWindow, type }) => {
+    return (
+      type === WINDOW_TYPE.VIEW &&
+      isPointInRectangle(cursorPoint, browserWindow.getBounds())
+    );
+  });
+}
+
 export function hideAllBrowserWindows(): void {
   windowStore.forEach(({ browserWindow }) => browserWindow.hide());
 }
 
-export const isInCaptureMode = (): boolean => {
+export function isInCaptureMode(): boolean {
   return cachedIsInCaptureMode;
-};
+}
 
 function renderCaptureBrowserWindows(): void {
   const displays = screen.getAllDisplays();
@@ -103,22 +126,10 @@ function renderViewBrowserWindow(
   ];
 }
 
-export const getBrowserWindowState = (
-  targetWindow: BrowserWindow,
-): IViewBrowserWindowState | null | undefined => {
-  const windowWithState = windowStore.find(
-    ({ browserWindow }) => targetWindow === browserWindow,
-  );
-
-  if (windowWithState) {
-    return windowWithState.state;
-  }
-};
-
-export const setBrowserWindowState = (
+export function setBrowserWindowState(
   targetWindow: BrowserWindow,
   state: IViewBrowserWindowState,
-): void => {
+): void {
   const windowWithState = windowStore.find(
     ({ browserWindow }) => targetWindow === browserWindow,
   );
@@ -128,12 +139,12 @@ export const setBrowserWindowState = (
 
     windowWithState.browserWindow.webContents.send('state-change', state);
   }
-};
+}
 
-export const setViewBrowserWindowIsLocked = (
+export function setViewBrowserWindowIsLocked(
   targetWindow: BrowserWindow,
   isLocked: boolean,
-): void => {
+): void {
   const windowWithState = windowStore.find(
     ({ browserWindow }) => targetWindow === browserWindow,
   );
@@ -145,7 +156,7 @@ export const setViewBrowserWindowIsLocked = (
       isLocked,
     });
   }
-};
+}
 
 function showOrCreateCaptureBrowserWindows(): void {
   const captureBrowserWindows = windowStore.filter(
@@ -167,19 +178,19 @@ function showViewBrowserWindows(): void {
   });
 }
 
-export const startCaptureMode = (): void => {
+export function startCaptureMode(): void {
   cachedIsInCaptureMode = true;
 
   hideAllBrowserWindows();
   showOrCreateCaptureBrowserWindows();
   createMenu();
-};
+}
 
-export const startViewMode = (
+export function startViewMode(
   imageUri?: string,
   captureBounds?: Electron.Rectangle,
   displayBounds?: Electron.Rectangle,
-): void => {
+): void {
   cachedIsInCaptureMode = false;
 
   hideAllBrowserWindows();
@@ -188,17 +199,6 @@ export const startViewMode = (
     renderViewBrowserWindow(imageUri, captureBounds, displayBounds);
   }
   createMenu();
-};
-
-export function getBrowserWindowStatesUnderCursor(): BrowserWindowWithState[] {
-  const cursorPoint = screen.getCursorScreenPoint();
-
-  return windowStore.filter(({ browserWindow, type }) => {
-    return (
-      type === WINDOW_TYPE.VIEW &&
-      isPointInRectangle(cursorPoint, browserWindow.getBounds())
-    );
-  });
 }
 
 // rebuildCaptureWindows() {
