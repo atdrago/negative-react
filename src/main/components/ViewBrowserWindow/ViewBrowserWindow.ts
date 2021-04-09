@@ -7,8 +7,9 @@ import {
 } from 'main/services/window';
 import {
   IBrowserWindowEvent,
+  IpcEvent,
   IViewBrowserWindowProps,
-  WINDOW_TYPE,
+  WindowType,
 } from 'typings';
 
 export function ViewBrowserWindow({
@@ -38,12 +39,12 @@ export function ViewBrowserWindow({
     browserWindow.setWindowButtonVisibility(false);
   });
 
-  browserWindow.loadURL(`${WINDOW_BASE_URL}?type=${WINDOW_TYPE.VIEW}`);
+  browserWindow.loadURL(`${WINDOW_BASE_URL}?type=${WindowType.View}`);
 
-  ipcMain.handleOnce('view-mount', () => {
-    ipcMain.removeHandler('view-mount');
+  ipcMain.handleOnce(IpcEvent.ViewMount, () => {
+    ipcMain.removeHandler(IpcEvent.ViewMount);
     browserWindow.webContents.send(
-      'capture-complete',
+      IpcEvent.CaptureComplete,
       imageUri,
       captureBounds,
       displayBounds,

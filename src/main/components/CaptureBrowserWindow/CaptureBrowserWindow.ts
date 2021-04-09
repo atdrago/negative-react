@@ -8,7 +8,7 @@ import {
 import {
   IBrowserWindowEvent,
   ICaptureBrowserWindowProps,
-  WINDOW_TYPE,
+  WindowType,
 } from 'typings';
 
 export function CaptureBrowserWindow({
@@ -41,7 +41,7 @@ export function CaptureBrowserWindow({
     destroyBrowserWindow(sender);
   });
 
-  browserWindow.loadURL(`${WINDOW_BASE_URL}?type=${WINDOW_TYPE.CAPTURE}`);
+  browserWindow.loadURL(`${WINDOW_BASE_URL}?type=${WindowType.Capture}`);
 
   return browserWindow;
 }

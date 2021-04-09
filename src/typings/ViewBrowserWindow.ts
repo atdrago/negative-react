@@ -1,5 +1,7 @@
+import { Rectangle } from 'electron';
+
 export interface IViewBrowserWindowProps {
   imageUri: string;
-  captureBounds: Electron.Rectangle;
-  displayBounds: Electron.Rectangle;
+  captureBounds: Rectangle;
+  displayBounds: Rectangle;
 }

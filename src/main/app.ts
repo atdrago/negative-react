@@ -10,6 +10,7 @@ import {
   startCaptureMode,
   startViewMode,
 } from 'main/services/window';
+import { IpcEvent } from 'typings';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -22,14 +23,14 @@ export const init = (): void => {
     startCaptureMode();
 
     ipcMain.handle(
-      // TODO : Add to type declarations
-      'capture',
+      IpcEvent.Capture,
+      // TODO: Add to type declarations for these extra parameters
       (_event, imageUri, regionBounds, displayBounds) => {
         startViewMode(imageUri, regionBounds, displayBounds);
       },
     );
 
-    ipcMain.handle('capture-keyup-escape', () => {
+    ipcMain.handle(IpcEvent.CaptureKeyupEscape, () => {
       hideAllBrowserWindows();
     });
 

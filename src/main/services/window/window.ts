@@ -8,9 +8,10 @@ import { ViewBrowserWindow } from 'main/components/ViewBrowserWindow';
 import { createMenu } from 'main/services/menu';
 import { isPointInRectangle } from 'main/utils/isPointInRectangle';
 import {
-  WINDOW_TYPE,
   BrowserWindowWithState,
+  IpcEvent,
   IViewBrowserWindowState,
+  WindowType,
 } from 'typings';
 
 let cachedIsInCaptureMode = false;
@@ -76,7 +77,7 @@ export function getBrowserWindowStatesUnderCursor(): BrowserWindowWithState[] {
 
   return windowStore.filter(({ browserWindow, type }) => {
     return (
-      type === WINDOW_TYPE.VIEW &&
+      type === WindowType.View &&
       isPointInRectangle(cursorPoint, browserWindow.getBounds())
     );
   });
@@ -99,7 +100,7 @@ function renderCaptureBrowserWindows(): void {
       const browserWindowWithState: BrowserWindowWithState = {
         browserWindow: CaptureBrowserWindow({ display }),
         state: null,
-        type: WINDOW_TYPE.CAPTURE,
+        type: WindowType.Capture,
       };
 
       return browserWindowWithState;
@@ -121,7 +122,7 @@ function renderViewBrowserWindow(
         displayBounds,
       }),
       state: { isLocked: false },
-      type: WINDOW_TYPE.VIEW,
+      type: WindowType.View,
     },
   ];
 }
@@ -137,7 +138,7 @@ export function setBrowserWindowState(
   if (windowWithState) {
     windowWithState.state = state;
 
-    windowWithState.browserWindow.webContents.send('state-change', state);
+    windowWithState.browserWindow.webContents.send(IpcEvent.StateChange, state);
   }
 }
 
@@ -160,7 +161,7 @@ export function setViewBrowserWindowIsLocked(
 
 function showOrCreateCaptureBrowserWindows(): void {
   const captureBrowserWindows = windowStore.filter(
-    ({ type }) => type === WINDOW_TYPE.CAPTURE,
+    ({ type }) => type === WindowType.Capture,
   );
 
   if (captureBrowserWindows.length > 0) {
@@ -172,7 +173,7 @@ function showOrCreateCaptureBrowserWindows(): void {
 
 function showViewBrowserWindows(): void {
   windowStore.forEach(({ browserWindow, type }) => {
-    if (type === WINDOW_TYPE.VIEW) {
+    if (type === WindowType.View) {
       browserWindow.show();
     }
   });

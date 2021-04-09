@@ -1,35 +1,19 @@
-import { BrowserWindow, DesktopCapturer, IpcRenderer, Screen } from 'electron';
+import { BrowserWindow, DesktopCapturer, Screen } from 'electron';
 
-import { ICaptureCompleteEvent, ICaptureEvent } from 'typings';
+import { IIpcRendererWithCustomEvents } from 'typings';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   interface Window {
-    addEventListener(
-      event: 'capture',
-      listener: (event: ICaptureEvent) => void,
-    ): void;
-    addEventListener(
-      event: 'capture-complete',
-      listener: (event: ICaptureCompleteEvent) => void,
-    ): void;
     desktopCapturer: DesktopCapturer;
-    removeEventListener(
-      event: 'capture',
-      listener: (event: ICaptureEvent) => void,
-    ): void;
-    removeEventListener(
-      event: 'capture-complete',
-      listener: (event: ICaptureCompleteEvent) => void,
-    ): void;
     remoteScreen: Screen;
-    ipcRenderer: IpcRenderer;
+    ipcRenderer: IIpcRendererWithCustomEvents;
   }
 }
 
-export enum WINDOW_TYPE {
-  CAPTURE = 'CAPTURE',
-  VIEW = 'VIEW',
+export enum WindowType {
+  Capture = 'CAPTURE',
+  View = 'VIEW',
 }
 
 export interface IViewBrowserWindowState {
@@ -38,14 +22,14 @@ export interface IViewBrowserWindowState {
 
 export type BrowserWindowWithState = {
   browserWindow: BrowserWindow;
-  type: WINDOW_TYPE;
+  type: WindowType;
 } & (
   | {
       state: IViewBrowserWindowState;
-      type: typeof WINDOW_TYPE.VIEW;
+      type: typeof WindowType.View;
     }
   | {
       state: null;
-      type: typeof WINDOW_TYPE.CAPTURE;
+      type: typeof WindowType.Capture;
     }
 );

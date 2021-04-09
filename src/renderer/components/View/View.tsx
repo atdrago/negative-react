@@ -1,4 +1,7 @@
+import { IpcRendererEvent, Rectangle } from 'electron';
 import React, { useEffect, useState } from 'react';
+
+import { IpcEvent, IViewBrowserWindowState } from 'typings';
 
 import {
   Bottom,
@@ -9,7 +12,6 @@ import {
   MiddleLeft,
   MiddleRight,
 } from './styled';
-import { IViewBrowserWindowState } from 'typings';
 
 export const View = () => {
   const [imageHeight, setImageHeight] = useState(0);
@@ -21,34 +23,35 @@ export const View = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    window.ipcRenderer.invoke('view-mount');
-
-    window.ipcRenderer.on(
-      'capture-complete',
-      (
-        _event: any,
-        captureImageUri: string,
-        captureBounds: any,
-        _displayBounds: any,
-      ) => {
-        setImageHeight(captureBounds.height);
-        setImageUri(captureImageUri);
-        setImageWidth(captureBounds.width);
-      },
-    );
+    window.ipcRenderer.invoke(IpcEvent.ViewMount);
   }, []);
 
   useEffect(() => {
-    const handleStateChange = (_event: any, state: IViewBrowserWindowState) => {
+    function handleStateChange(
+      _event: IpcRendererEvent,
+      state: IViewBrowserWindowState,
+    ) {
       if (state.isLocked !== isLocked) {
         setIsLocked(state.isLocked);
       }
-    };
+    }
 
-    window.ipcRenderer.on('state-change', handleStateChange);
+    function handleCaptureComplete(
+      _event: IpcRendererEvent,
+      captureImageUri: string,
+      captureBounds: Rectangle,
+    ) {
+      setImageHeight(captureBounds.height);
+      setImageUri(captureImageUri);
+      setImageWidth(captureBounds.width);
+    }
+
+    window.ipcRenderer.on(IpcEvent.CaptureComplete, handleCaptureComplete);
+    window.ipcRenderer.on(IpcEvent.StateChange, handleStateChange);
 
     return () => {
-      window.ipcRenderer.off('state-change', handleStateChange);
+      window.ipcRenderer.off(IpcEvent.CaptureComplete, handleCaptureComplete);
+      window.ipcRenderer.off(IpcEvent.StateChange, handleStateChange);
     };
   }, [isLocked]);
 

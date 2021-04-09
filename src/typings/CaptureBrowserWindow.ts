@@ -1,3 +1,5 @@
+import { Display } from 'electron';
+
 export interface ICaptureBrowserWindowProps {
-  display: Electron.Display;
+  display: Display;
 }

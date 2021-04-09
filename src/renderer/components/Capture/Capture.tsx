@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { captureRegionOfScreen } from 'renderer/utils/captureRegionOfScreen';
+import { IpcEvent } from 'typings';
 
 import { CaptureRegion, Frame } from './styled';
 
@@ -15,15 +16,18 @@ export const Capture = () => {
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
 
+  const isMouseDownRef = useRef(isMouseDown);
+
   function handleMouseDown(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) {
-    setIsMouseDown(true);
+    const { clientX, clientY } = event;
 
-    setMouseDownX(event.clientX);
-    setMouseDownY(event.clientY);
-    setLeft(event.clientX);
-    setTop(event.clientY);
+    setIsMouseDown(true);
+    setLeft(clientX);
+    setMouseDownX(clientX);
+    setMouseDownY(clientY);
+    setTop(clientY);
   }
 
   function handleMouseMove(
@@ -35,58 +39,24 @@ export const Capture = () => {
       const nextLeft = Math.min(clientX, mouseDownX);
       const nextTop = Math.min(clientY, mouseDownY);
 
-      const nextHeight = Math.max(clientY, mouseDownY) - nextTop;
-      const nextWidth = Math.max(clientX, mouseDownX) - nextLeft;
-
-      setHeight(nextHeight);
       setLeft(nextLeft);
       setTop(nextTop);
-      setWidth(nextWidth);
+      setHeight(Math.max(clientY, mouseDownY) - nextTop);
+      setWidth(Math.max(clientX, mouseDownX) - nextLeft);
     }
 
     if (!isFrameFocused) {
       setTimeout(() => {
-        if (frameRef.current) {
-          frameRef.current.focus();
-          frameRef.current.ownerDocument?.documentElement.focus();
-        }
+        frameRef.current?.focus();
+        frameRef.current?.ownerDocument?.documentElement.focus();
         window.focus();
       }, 0);
       setIsFrameFocused(true);
     }
   }
 
-  async function handleMouseUp(
-    _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) {
-    if (isMouseDown) {
-      const screenPoint = await window.remoteScreen.getCursorScreenPoint();
-      const {
-        bounds: displayBounds,
-      } = await window.remoteScreen.getDisplayNearestPoint(screenPoint);
-
-      const regionBounds = {
-        height,
-        width,
-        x: left,
-        y: top,
-      };
-
-      const imageUri = await captureRegionOfScreen(regionBounds, displayBounds);
-
-      window.ipcRenderer.invoke(
-        'capture',
-        imageUri,
-        regionBounds,
-        displayBounds,
-      );
-    }
-
+  function handleMouseUp() {
     setIsMouseDown(false);
-    setHeight(0);
-    setLeft(0);
-    setTop(0);
-    setWidth(0);
   }
 
   function handleMouseLeave() {
@@ -108,7 +78,7 @@ export const Capture = () => {
           setWidth(0);
         } else {
           // If Escape is pressed while sitting in capture mode, exit capture mode
-          window.ipcRenderer.invoke('capture-keyup-escape');
+          window.ipcRenderer.invoke(IpcEvent.CaptureKeyupEscape);
         }
       }
     }
@@ -118,6 +88,48 @@ export const Capture = () => {
     return () => {
       window.removeEventListener('keyup', handleKeyUp);
     };
+  }, [isMouseDown]);
+
+  useEffect(() => {
+    async function captureAndResetCropRectangle() {
+      // `isMouseDown` was true and is now false
+      if (isMouseDownRef.current && !isMouseDown) {
+        const screenPoint = await window.remoteScreen.getCursorScreenPoint();
+        const {
+          bounds: displayBounds,
+        } = await window.remoteScreen.getDisplayNearestPoint(screenPoint);
+
+        const regionBounds = {
+          height,
+          width,
+          x: left,
+          y: top,
+        };
+
+        const imageUri = await captureRegionOfScreen(
+          regionBounds,
+          displayBounds,
+        );
+
+        window.ipcRenderer.invoke(
+          IpcEvent.Capture,
+          imageUri,
+          regionBounds,
+          displayBounds,
+        );
+
+        setHeight(0);
+        setLeft(0);
+        setTop(0);
+        setWidth(0);
+      }
+    }
+
+    captureAndResetCropRectangle();
+  }, [height, isMouseDown, left, top, width]);
+
+  useEffect(() => {
+    isMouseDownRef.current = isMouseDown;
   }, [isMouseDown]);
 
   return (
